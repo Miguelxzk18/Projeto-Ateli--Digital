@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>Karla Priscilia</h2>
+                <p>Confeitaria</p>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a href="admin-cardapio.html"><i class="fas fa-book-open"></i> Cardápio</a></li>
+                    <li><a href="admin-pedidos.html" class="active"><i class="fas fa-receipt"></i> Pedidos</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                    <li><a href="login.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <header class="admin-header pedidos-header">
+                <h1>Pedidos</h1>
+                <button class="btn btn-primary" style="width: auto; background-color: #e74c3c;">Bloquear Data</button>
+            </header>
+            
+            <section class="calendar-container">
+                <div class="calendar">
+                    <h4>Outubro 2025</h4>
+                    <p>(Placeholder para Calendário de Outubro)</p>
+                </div>
+                <div class="calendar">
+                    <h4>Novembro 2025</h4>
+                    <p>(Placeholder para Calendário de Novembro)</p>
+                </div>
+            </section>
+
+            <section class="pedidos-table-container">
+                <div class="pedidos-table-header">
+                    <h4>Data Selecionada: 15 de Outubro de 2025</h4>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nº do Pedido</th>
+                            <th>Cliente</th>
+                            <th>Itens</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Hora de Entrega</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1234</td>
+                            <td>Sophia Oliveira</td>
+                            <td>1 bolo de chocolate (1 kg), 10 brownies...</td>
+                            <td>R$ 180,00</td>
+                            <td class="status">Confirmado</td>
+                            <td>10:00</td>
+                        </tr>
+                        <tr>
+                            <td>#1235</td>
+                            <td>Madalena de Almeida</td>
+                            <td>1 bolo de morango (1 kg), brigadeiros...</td>
+                            <td>R$ 270.00</td>
+                            <td class="status">Confirmado</td>
+                            <td>12:00</td>
+                        </tr>
+                        <tr>
+                            <td>#1236</td>
+                            <td>Ronaldo dos Santos</td>
+                            <td>Salgados (100 un.)</td>
+                            <td>R$ 110.00</td>
+                            <td class="status">Confirmado</td>
+                            <td>14:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>

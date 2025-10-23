@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>Karla Priscilia</h2>
+                <p>Confeitaria</p>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a href="admin-cardapio.html"><i class="fas fa-book-open"></i> Cardápio</a></li>
+                    <li><a href="admin-pedidos.html"><i class="fas fa-receipt"></i> Pedidos</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
+                    <li><a href="login.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Bem vinda de volta, Karla!</h1>
+                <p>Administre a sua confeitaria</p>
+            </header>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <h5>Financeiro - Faturamento mensal</h5>
+                    <div class="value">R$ 7.500,00</div>
+                </div>
+                <div class="stat-card">
+                    <h5>Vendas realizadas este mês</h5>
+                    <div class="value">42</div>
+                </div>
+                <div class="stat-card">
+                    <h5>Renda atual</h5>
+                    <div class="value">R$ 5.256,00</div>
+                </div>
+            </section>
+
+            <section class="dashboard-columns">
+                <div class="content-card">
+                    <h3>Notificações recentes</h3>
+                    <div class="notification-item">
+                        <div class="notification-icon success"><i class="fas fa-check"></i></div>
+                        <div class="notification-details">
+                            <p>Novo pedido confirmado!</p>
+                            <time>10:30 AM</time>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon success"><i class="fas fa-check"></i></div>
+                        <div class="notification-details">
+                            <p>Novo pedido confirmado!</p>
+                            <time>8:00 AM</time>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="action-card">
+                        <div>
+                            <h4>Menu</h4>
+                            <p>Gerencie os seus produtos</p>
+                        </div>
+                        <div class="arrow-link">
+                            <a href="admin-cardapio.html"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="action-card">
+                        <div>
+                            <h4>Pedidos</h4>
+                            <p>Veja os pedidos confirmados</p>
+                        </div>
+                        <div class="arrow-link">
+                            <a href="admin-pedidos.html"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>

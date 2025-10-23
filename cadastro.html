@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crie sua conta - Karla Priscilia Confeitaria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9f0f2 0%, #f5e6ea 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 900px; /* Reduzido de 1200px */
+            width: 100%;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(214, 122, 144, 0.25);
+        }
+
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #F7BAC4 0%, #F7BAC4 100%);
+            color: white;
+            padding: 40px 30px; /* Reduzido o padding */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 30px; /* Reduzido */
+            padding: 20px; /* Reduzido */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-image {
+            width: 200px; /* Reduzido de 280px */
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+        }
+
+        .features {
+            width: 100%;
+            max-width: 350px; /* Reduzido */
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px; /* Reduzido */
+            padding: 15px; /* Reduzido */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px; /* Reduzido */
+            height: 40px; /* Reduzido */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px; /* Reduzido */
+            font-size: 18px; /* Reduzido */
+        }
+
+        .feature-text h3 {
+            font-size: 16px; /* Reduzido */
+            margin-bottom: 6px; /* Reduzido */
+            font-weight: 600;
+        }
+
+        .feature-text p {
+            font-size: 13px; /* Reduzido */
+            opacity: 0.9;
+            line-height: 1.4; /* Reduzido */
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 40px 30px; /* Reduzido */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .form-header {
+            margin-bottom: 30px; /* Reduzido */
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-size: 26px; /* Reduzido */
+            color: #333;
+            margin-bottom: 12px; /* Reduzido */
+            font-weight: 700;
+        }
+
+        .form-header p {
+            color: #777;
+            font-size: 15px; /* Reduzido */
+            line-height: 1.5; /* Reduzido */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Reduzido */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px; /* Reduzido */
+            font-weight: 600;
+            color: #555;
+            font-size: 14px; /* Reduzido */
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 20px; /* Reduzido */
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 15px; /* Reduzido */
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #F7BAC4;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(214, 122, 144, 0.15);
+        }
+
+        .password-requirements {
+            font-size: 12px; /* Reduzido */
+            color: #888;
+            margin-top: 6px; /* Reduzido */
+            padding-left: 20px; /* Reduzido */
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px; /* Reduzido */
+            border: none;
+            border-radius: 50px;
+            font-size: 15px; /* Reduzido */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Reduzido */
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #F7BAC4 0%, #F7BAC4 100%);
+            color: white;
+            margin-top: 12px; /* Reduzido */
+            box-shadow: 0 5px 15px rgba(214, 122, 144, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px #F7BAC4;
+        }
+
+        .separator {
+            text-align: center;
+            margin: 25px 0; /* Reduzido */
+            position: relative;
+            color: #999;
+            font-size: 14px; /* Reduzido */
+        }
+
+        .separator::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .separator span {
+            background: white;
+            padding: 0 15px; /* Reduzido */
+        }
+
+        .btn-google {
+            background: white;
+            color: #555;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .btn-google:hover {
+            background: #f8f8f8;
+            border-color: #d0d0d0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .google-icon {
+            width: 20px; /* Reduzido */
+            height: 20px; /* Reduzido */
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px; /* Reduzido */
+            color: #777;
+            font-size: 14px; /* Reduzido */
+        }
+
+        .login-link a {
+            color: #F7BAC4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #F7BAC4;
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px; /* Reduzido */
+            color: #999;
+            font-size: 13px; /* Reduzido */
+            padding-top: 15px; /* Reduzido */
+            border-top: 1px solid #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 400px; /* Reduzido */
+            }
+            
+            .left-panel {
+                padding: 30px 20px; /* Reduzido */
+            }
+            
+            .right-panel {
+                padding: 30px 20px; /* Reduzido */
+            }
+            
+            .logo-image {
+                width: 150px; /* Reduzido */
+            }
+            
+            .logo-container {
+                padding: 15px; /* Reduzido */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo-container">
+                <img src="Imagens/logo/fullwhitelogo.png" alt="Karla Priscilia Confeitaria" class="logo-image">
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Produtos Artesanais</h3>
+                        <p>Doces feitos com ingredientes selecionados e receitas exclusivas</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Entrega Rápida</h3>
+                        <p>Entregamos em toda a região com qualidade e agilidade</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Qualidade Garantida</h3>
+                        <p>Mais de 10 anos de experiência em confeitaria fina</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="form-header">
+                <h2>Crie sua conta</h2>
+                <p>Faça parte da nossa comunidade de doces e receba ofertas exclusivas</p>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="voce@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                    <div class="password-requirements">Mínimo 8 caracteres, incluindo números e letras</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirme sua senha</label>
+                    <input type="password" id="confirm-password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i>
+                    Criar conta
+                </button>
+                
+                <div class="separator">
+                    <span>ou</span>
+                </div>
+                
+                <button type="button" class="btn btn-google">
+                    <img src="https://pngimg.com/uploads/google/google_PNG19630.png" alt="Google" class="google-icon">
+                    Criar conta com o Google
+                </button>
+                
+                <div class="login-link">
+                    Já possui uma conta? <a href="#">Entre aqui</a>
+                </div>
+            </form>
+            
+            <div class="footer">
+                <p>© 2025 Karla Priscilia Confeitaria. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem. Por favor, verifique novamente.');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('A senha deve ter pelo menos 8 caracteres.');
+                return;
+            }
+            
+            // Simulação de cadastro bem-sucedido
+            alert('Cadastro realizado com sucesso! Bem-vindo(a) à Karla Priscilia Confeitaria!');
+            // Aqui você normalmente redirecionaria para a página de login ou dashboard
+        });
+    </script>
+
+    <!-- Link para os ícones do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>Karla Priscilia</h2> <p>Confeitaria</p> </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li> <li><a href="admin-cardapio.html" class="active"><i class="fas fa-book-open"></i> Cardápio</a></li> <li><a href="admin-pedidos.html"><i class="fas fa-receipt"></i> Pedidos</a></li> <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li> <li><a href="login.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li> </ul>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Cardápio</h1> <p>Organize seus produtos, categorias, promoções e combos</p> </header>
+            
+            <section class="content-card">
+                <div class="table-header">
+                    <h3>Todos os Produtos</h3>
+                    <a href="#" class="btn btn-primary" style="width: auto;">+ Adicionar produto</a> </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr> <th>Foto</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                <th>Categoria</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Bolo Personalizado (1 kg)</td>
+                                <td>Monte o seu bolo personalizado conosco! Escolha cobertura, massa recheio e o tema da sua festa!</td>
+                                <td>R$ 110.00- R$150,00</td>
+                                <td>Bolos</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Brigadeiros 100 (un.)</td>
+                                <td>100 unidades de brigadeiros simples..</td>
+                                <td>R$120.00</td>
+                                <td>Doces Finos e Tradicionais.</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Brigadeiros Gourmet (100 un.)</td>
+                                <td>100 unidades de brigadeiros gourmet.</td>
+                                <td>R$ 150,00</td>
+                                <td>Doces Finos e Tradicionais</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Brownie Recheado</td>
+                                <td>Um delicioso brownie recheado.</td>
+                                <td>R$ 7,00</td>
+                                <td>Doces Individuais</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Salgados Tradicionais (100 un.)</td>
+                                <td>100 unidades de salgados simples. Coxinhas. pastéis, bolinhas de queijo e muito mais!</td>
+                                <td>R$ 110.00</td>
+                                <td>Salgados</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Salgados Especiais (100 un.)</td>
+                                <td>100 unidades de salgados especiais. Camarão empanado, croquete de carne seca e muito mais!</td>
+                                <td>R$150.00</td>
+                                <td>Salgados</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Mini Hambúrguer</td>
+                                <td>Um delicioso mini hambúrguer</td>
+                                <td>R$ 3.50</td>
+                                <td>Salgados</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><div class="product-photo-placeholder"></div></td>
+                                <td>Mini Cachorro Quente</td>
+                                <td>Um delicioso mini cachorro quente.</td>
+                                <td>R$ 3,50</td>
+                                <td>Salgados</td>
+                                <td class="table-actions">
+                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="#"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <section class="management-grid">
+                <div class="content-card">
+                    <h4>Categorias</h4>
+                    <p>Organize seus produtos em seções.</p>
+                    <a href="#" class="btn btn-secondary">Gerenciar categorias</a> </div>
+                <div class="content-card">
+                    <h4>Promoções</h4> <p>Crie e administre ofertas especiais e descontos.</p> <a href="#" class="btn btn-secondary">Gerenciar promoções</a> </div>
+                <div class="content-card">
+                    <h4>Combos</h4> <p>Junte itens para criar um combo especial para os seus clientes.</p> <a href="#" class="btn btn-secondary">Gerenciar combos</a> </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>
