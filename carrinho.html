@@ -434,8 +434,8 @@
         
         .schedule-inputs {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         
         .input-group {
@@ -445,10 +445,12 @@
         
         .schedule-inputs input {
             width: 100%;
-            padding: 12px 40px 12px 15px;
+            padding: 8px 12px;
             border: 1px solid #E0E0E0;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            height: 40px;
+            box-sizing: border-box;
             background-color: #f9f9f9;
         }
         
@@ -626,12 +628,10 @@
                 <h3>Agende</h3>
                 <div class="schedule-inputs">
                     <div class="input-group">
-                        <input type="text" placeholder="DD/MM/AAAA">
-                        <i class="far fa-calendar input-icon"></i>
+                        <input type="date" id="delivery-date" name="delivery-date" min="" required>
                     </div>
                     <div class="input-group">
-                        <input type="text" placeholder="00:00">
-                        <i class="far fa-clock input-icon"></i>
+                        <input type="time" id="delivery-time" name="delivery-time" min="09:00" max="18:00" step="3600" required>
                     </div>
                 </div>
             </div>
@@ -709,6 +709,12 @@
                 `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
         }
         
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('delivery-date').min = today;
+        });
+
         // Delivery option toggle
         document.querySelectorAll('.radio-option').forEach(option => {
             option.addEventListener('click', function() {
