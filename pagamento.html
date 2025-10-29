@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="client-header">
+            <div class="back-arrow">
+                <a href="carrinho.html"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="brand">
+                <h1 class="brand-title">Pagamento</h1>
+            </div>
+            <div class="header-icons">
+                <a href="carrinho.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">2</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <p style="text-align: center; color: var(--text-light); margin-bottom: 1.5rem;">Complete o seu pagamento com segurança.</p>
+
+            <div class="order-summary">
+                <h4 class="section-title" style="margin-top: 0;">Resumo do pedido</h4>
+                <div class="summary-row">
+                    <span>Bolo de Chocolate (1 kg) (1x R$ 110,00)</span>
+                    <span>R$ 110,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Brownie Recheado (10x R$ 7,00)</span>
+                    <span>R$ 70,00</span>
+                </div>
+                 <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>R$ 180,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Entrega</span>
+                    <span class="free">Grátis</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>R$ 180,00</span>
+                </div>
+            </div>
+
+            <h4 class="section-title">Método de Pagamento</h4>
+            
+            <div class="payment-tabs">
+                <div class="tab-link" data-tab="credito">Cartão de Crédito</div>
+                <div class="tab-link" data-tab="debito">Cartão de Débito</div>
+                <div class="tab-link" data-tab="pix">PIX</div>
+                <div class="tab-link" data-tab="dinheiro">Dinheiro</div>
+            </div>
+
+            <div class="payment-content">
+                <div id="credito" class="tab-content">
+                    <form action="sucesso.html">
+                        <div class="form-group">
+                            <label for="cc-name">Nome do titular do cartão</label>
+                            <input type="text" id="cc-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cc-number">Número do cartão</label>
+                            <input type="text" id="cc-number">
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="cc-expiry">Vencimento (MM/AA)</label>
+                                <input type="text" id="cc-expiry">
+                            </div>
+                            <div class="form-group">
+                                <label for="cc-cvc">CVC</label>
+                                <input type="text" id="cc-cvc">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</button>
+                    </form>
+                </div>
+
+                <div id="debito" class="tab-content">
+                    <form action="sucesso.html">
+                        <div class="form-group">
+                            <label for="dc-name">Nome do titular do cartão</label>
+                            <input type="text" id="dc-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="dc-number">Número do cartão</label>
+                            <input type="text" id="dc-number">
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="dc-expiry">Vencimento (MM/AA)</label>
+                                <input type="text" id="dc-expiry">
+                            </div>
+                            <div class="form-group">
+                                <label for="dc-cvc">CVC</label>
+                                <input type="text" id="dc-cvc">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</button>
+                    </form>
+                </div>
+
+                <div id="pix" class="tab-content">
+                    <div class="pix-content">
+                        <p>Escaneie o QR code com o aplicativo do seu banco.</p>
+                        <img src="https://via.placeholder.com/250" alt="QR Code PIX">
+                    </div>
+                    <a href="sucesso.html" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</a>
+                </div>
+
+                <div id="dinheiro" class="tab-content">
+                    <div class="troco-box">
+                        <label for="troco">Você vai precisar de troco? Caso sim, para quanto?</label>
+                        <input type="text" id="troco" placeholder="Ex: Sim, vou precisar de troco para uma nota de cem...">
+                    </div>
+                     <a href="sucesso.html" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
