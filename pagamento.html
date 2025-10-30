@@ -497,13 +497,17 @@
                     </form>
                     <button type="button" class="btn btn-primary" id="confirmDebitPayment">Confirmar pagamento</button>
                 </div>
-                
+
+                <!-- PIX Payment -->
                 <div id="pix" class="tab-content">
                     <div class="pix-content">
                         <p>Escaneie o QR code com o aplicativo do seu banco.</p>
-                        <img src="https://via.placeholder.com/250" alt="QR Code PIX">
+                        <div class="pix-qr">
+                            <!-- QR Code will be generated here -->
+                            <i class="fas fa-qrcode" style="font-size: 60px; color: #ccc;"></i>
+                        </div>
                     </div>
-                    <a href="sucesso.html" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</a>
+                    <button type="button" class="btn btn-primary" id="confirmPixPayment">Confirmar pagamento</button>
                 </div>
 
                 <div id="dinheiro" class="tab-content">
