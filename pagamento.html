@@ -379,22 +379,36 @@
 </head>
 <body>
 
-    <div class="app-container">
-        <header class="client-header">
-            <div class="back-arrow">
-                <a href="carrinho.html"><i class="fas fa-arrow-left"></i></a>
+   <div class="app-container">
+        <header class="client-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
+            <!-- Logo e redes sociais -->
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="Imagens/logo/cake + title logo.png" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
+                <div style="display: flex; gap: 8px;">
+                    <a href="#" style="display: flex; align-items: center;">
+                        <img src="Imagens/whatsapp.png" alt="WhatsApp" style="height: 25px;">
+                    </a>
+                    <a href="https://www.instagram.com/confeitariakarlapriscilia/" style="display: flex; align-items: center;">
+                        <img src="Imagens/instagram.png" alt="Instagram" style="height: 25px;">
+                    </a>
+                </div>
             </div>
-            <div class="brand">
-                <h1 class="brand-title">Pagamento</h1>
-            </div>
-            <div class="header-icons">
-                <a href="carrinho.html">
+            
+            <!-- Ícones de perfil e carrinho -->
+            <div class="header-icons" style="display: flex; align-items: center; gap: 10px;">
+                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: #333; background-color: #f78f9a27; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 8px 15px; font-size: 14px; font-weight: 500; transition: all 0.2s;">
+                    <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Voltar
+                </a>
+                <a href="perfil.html" class="profile-icon" style="color: #333; padding: 8px;">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="carrinho.html" class="cart-icon" style="position: relative; color: #333; padding: 8px;">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">2</span>
+                    <span id="cart-count" style="position: absolute; top: 0; right: 0; background-color: #f78f9a; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
                 </a>
             </div>
         </header>
-
+        
         <main class="page-content">
             <p style="text-align: center; color: var(--text-light); margin-bottom: 1.5rem;">Complete o seu pagamento com segurança.</p>
 
