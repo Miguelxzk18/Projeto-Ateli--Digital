@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="Imagens/logo/cake + title logo.png" alt="Karla Priscilia Confeitaria">
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <i class="fas fa-utensils"></i>
+                            <span>Cardápio</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Meu Perfil</h1>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-avatar">SO</div>
+                <a href="#" class="profile-edit-btn" onclick="toggleEditMode()">
+                    <i class="fas fa-pen"></i>
+                    <span>Editar perfil</span>
+                </a>
+                <div class="profile-info">
+                    <div class="view-mode">
+                        <h4>Sophia Oliveira</h4>
+                        <p>
+                            CPF: 123.456.789-00<br>
+                            Endereço: Rua do Arco, 123, Gramame - 58069349, João Pessoa/PB<br>
+                            Celular: (83) 91234-5678
+                        </p>
+                    </div>
+                    <div class="edit-mode" style="display: none;">
+                        <div class="form-group">
+                            <label>Nome:</label>
+                            <input type="text" class="form-control" value="Sophia Oliveira">
+                        </div>
+                        <div class="form-group">
+                            <label>CPF:</label>
+                            <input type="text" class="form-control cpf-mask" value="123.456.789-00">
+                        </div>
+                        <div class="form-group">
+                            <label>Endereço:</label>
+                            <input type="text" class="form-control" value="Rua do Arco, 123, Gramame - 58069349, João Pessoa/PB">
+                        </div>
+                        <div class="form-group">
+                            <label>Celular:</label>
+                            <input type="tel" class="form-control phone-mask" value="(83) 91234-5678">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-cancel" onclick="toggleEditMode()">Cancelar</button>
+                            <button type="button" class="btn btn-save" onclick="saveProfile()">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <h2 class="section-title">Pedidos Feitos</h2>
+
+            <div class="order-item">
+                <h5>Pedido #1234</h5>
+                <p>Feito dia 15 de outubro de 2025 às 14:40</p>
+                <p>Pagamento: Cartão de Crédito</p>
+                <span class="order-status status-confirmed">Confirmado</span>
+                <i class="fas fa-chevron-right order-arrow"></i>
+            </div>
+
+            <div class="order-item">
+                <h5>Pedido #1155</h5>
+                <p>Feito dia 10 de outubro de 2025 às 10:20</p>
+                <p>Pagamento: PIX</p>
+                <span class="order-status status-received">Recebido</span>
+                <i class="fas fa-chevron-right order-arrow"></i>
+            </div>
+
+        </main>
+    </div>
+</body>
+</html>
