@@ -368,5 +368,75 @@
 
         </main>
     </div>
+
+    <script>
+        function toggleEditMode() {
+            const viewMode = document.querySelector('.view-mode');
+            const editMode = document.querySelector('.edit-mode');
+            const isEditing = editMode.style.display === 'block';
+            
+            viewMode.style.display = isEditing ? 'block' : 'none';
+            editMode.style.display = isEditing ? 'none' : 'block';
+            
+            // Atualiza o texto do botão
+            const editButton = document.querySelector('.profile-edit-btn');
+            editButton.querySelector('span').textContent = isEditing ? 'Editar perfil' : 'Cancelar';
+        }
+
+        function saveProfile() {
+            // Aqui você pode adicionar a lógica para salvar os dados
+            alert('Perfil atualizado com sucesso!');
+            toggleEditMode();
+            
+            // Atualiza os valores exibidos com os valores dos inputs
+            const inputs = document.querySelectorAll('.edit-mode .form-control');
+            const userData = {
+                name: inputs[0].value,
+                cpf: inputs[1].value,
+                address: inputs[2].value,
+                phone: inputs[3].value
+            };
+            
+            // Atualiza a visualização com os novos valores
+            const viewMode = document.querySelector('.view-mode');
+            viewMode.innerHTML = `
+                <h4>${userData.name}</h4>
+                <p>
+                    CPF: ${userData.cpf}<br>
+                    Endereço: ${userData.address}<br>
+                    Celular: ${userData.phone}
+                </p>
+            `;
+        }
+
+        // Máscara para CPF
+        document.addEventListener('DOMContentLoaded', function() {
+            const cpfInput = document.querySelector('.cpf-mask');
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para telefone
+            const phoneInput = document.querySelector('.phone-mask');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 2) {
+                        value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+                    }
+                    if (value.length > 10) {
+                        value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
