@@ -473,31 +473,31 @@
                     <button type="button" class="btn btn-primary" id="confirmPayment">Confirmar pagamento</button>
                 </div>
 
-
+                <!-- Debit Card Form (same as credit card) -->
                 <div id="debito" class="tab-content">
-                    <form action="sucesso.html">
+                    <form id="debitCardForm">
                         <div class="form-group">
-                            <label for="dc-name">Nome do titular do cartão</label>
-                            <input type="text" id="dc-name">
+                            <label for="debitCardName">Nome do titular do cartão</label>
+                            <input type="text" id="debitCardName" class="form-control" placeholder="Como está no cartão" required>
                         </div>
                         <div class="form-group">
-                            <label for="dc-number">Número do cartão</label>
-                            <input type="text" id="dc-number">
+                            <label for="debitCardNumber">Número do cartão</label>
+                            <input type="text" id="debitCardNumber" class="form-control" placeholder="0000 0000 0000 0000" required>
                         </div>
-                        <div class="form-grid">
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="dc-expiry">Vencimento (MM/AA)</label>
-                                <input type="text" id="dc-expiry">
+                                <label for="debitCardExpiry">Vencimento (MM/AA)</label>
+                                <input type="text" id="debitCardExpiry" class="form-control" placeholder="MM/AA" required>
                             </div>
                             <div class="form-group">
-                                <label for="dc-cvc">CVC</label>
-                                <input type="text" id="dc-cvc">
+                                <label for="debitCardCvc">CVC</label>
+                                <input type="text" id="debitCardCvc" class="form-control" placeholder="000" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</button>
                     </form>
+                    <button type="button" class="btn btn-primary" id="confirmDebitPayment">Confirmar pagamento</button>
                 </div>
-
+                
                 <div id="pix" class="tab-content">
                     <div class="pix-content">
                         <p>Escaneie o QR code com o aplicativo do seu banco.</p>
