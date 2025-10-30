@@ -448,30 +448,31 @@
                     <div class="tab" data-tab="dinheiro">Dinheiro</div>
                 </div>
 
-            <div class="payment-content">
-                <div id="credito" class="tab-content">
-                    <form action="sucesso.html">
+                <!-- Credit Card Form -->
+                <div id="credito" class="tab-content active">
+                    <form id="creditCardForm">
                         <div class="form-group">
-                            <label for="cc-name">Nome do titular do cartão</label>
-                            <input type="text" id="cc-name">
+                            <label for="cardName">Nome do titular do cartão</label>
+                            <input type="text" id="cardName" class="form-control" placeholder="Como está no cartão" required>
                         </div>
                         <div class="form-group">
-                            <label for="cc-number">Número do cartão</label>
-                            <input type="text" id="cc-number">
+                            <label for="cardNumber">Número do cartão</label>
+                            <input type="text" id="cardNumber" class="form-control" placeholder="0000 0000 0000 0000" required>
                         </div>
-                        <div class="form-grid">
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="cc-expiry">Vencimento (MM/AA)</label>
-                                <input type="text" id="cc-expiry">
+                                <label for="cardExpiry">Vencimento (MM/AA)</label>
+                                <input type="text" id="cardExpiry" class="form-control" placeholder="MM/AA" required>
                             </div>
                             <div class="form-group">
-                                <label for="cc-cvc">CVC</label>
-                                <input type="text" id="cc-cvc">
+                                <label for="cardCvc">CVC</label>
+                                <input type="text" id="cardCvc" class="form-control" placeholder="000" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">Confirmar pagamento</button>
                     </form>
+                    <button type="button" class="btn btn-primary" id="confirmPayment">Confirmar pagamento</button>
                 </div>
+
 
                 <div id="debito" class="tab-content">
                     <form action="sucesso.html">
