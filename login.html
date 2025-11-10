@@ -3,290 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f9f0f2 0%, #f5e6ea 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            display: flex;
-            max-width: 900px;
-            width: 100%;
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(214, 122, 144, 0.25);
-        }
-
-        .left-panel {
-            flex: 1;
-            background: linear-gradient(135deg, #F7BAC4 0%, #F7BAC4 100%);
-            color: white;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .logo-container {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .logo-image {
-            width: 200px;
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-        }
-
-        .features {
-            width: 100%;
-            max-width: 350px;
-        }
-
-        .feature {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .feature-icon {
-            background: rgba(255, 255, 255, 0.2);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 18px;
-        }
-
-        .feature-text h3 {
-            font-size: 16px;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .feature-text p {
-            font-size: 13px;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .right-panel {
-            flex: 1;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: #ffffff;
-        }
-
-        .form-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .form-header h2 {
-            font-size: 26px;
-            color: #333;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .form-header p {
-            color: #777;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            font-size: 15px;
-            transition: all 0.3s;
-            background: #fafafa;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #F7BAC4;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(214, 122, 144, 0.15);
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 50px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #F7BAC4 0%, #F7BAC4 100%);
-            color: white;
-            margin-top: 12px;
-            box-shadow: 0 5px 15px rgba(214, 122, 144, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px #F7BAC4;
-        }
-
-        .separator {
-            text-align: center;
-            margin: 25px 0;
-            position: relative;
-            color: #999;
-            font-size: 14px;
-        }
-
-        .separator::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .separator span {
-            background: white;
-            padding: 0 15px;
-        }
-
-        .btn-google {
-            background: white;
-            color: #555;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
-        }
-
-        .btn-google:hover {
-            background: #f8f8f8;
-            border-color: #d0d0d0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .google-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .signup-link {
-            text-align: center;
-            margin-top: 25px;
-            color: #777;
-            font-size: 14px;
-        }
-
-        .signup-link a {
-            color: #F7BAC4;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .signup-link a:hover {
-            color: #F7BAC4;
-            text-decoration: underline;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #999;
-            font-size: 13px;
-            padding-top: 15px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                max-width: 400px;
-            }
-            
-            .left-panel {
-                padding: 30px 20px;
-            }
-            
-            .right-panel {
-                padding: 30px 20px;
-            }
-            
-            .logo-image {
-                width: 150px;
-            }
-            
-            .logo-container {
-                padding: 15px;
-            }
-        }
-    </style>
+    <title>Login | Karla Priscilia Confeitaria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../static/Style/Style_login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Style.css') }}">
+    <style>
+
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="left-panel">
             <div class="logo-container">
-                <img src="Imagens/logo/fullwhitelogo.png" alt="Karla Priscilia Confeitaria" class="logo-image">
+                <i class="fas fa-cookie-bite" aria-hidden="true"></i>
+                <h2 style="font-size: 24px; font-weight: 600; margin-top: 15px;">Karla Priscilia Confeitaria</h2>
             </div>
             
             <div class="features">
@@ -296,7 +26,7 @@
                     </div>
                     <div class="feature-text">
                         <h3>Produtos Artesanais</h3>
-                        <p>Doces feitos com ingredientes selecionados e receitas exclusivas p</p>
+                        <p>Doces feitos com ingredientes selecionados e receitas exclusivas.</p>
                     </div>
                 </div>
                 
@@ -306,7 +36,7 @@
                     </div>
                     <div class="feature-text">
                         <h3>Entrega Rápida</h3>
-                        <p>Entregamos em toda a região com qualidade e agilidade</p>
+                        <p>Entregamos em toda a região com qualidade e agilidade.</p>
                     </div>
                 </div>
                 
@@ -316,7 +46,7 @@
                     </div>
                     <div class="feature-text">
                         <h3>Qualidade Garantida</h3>
-                        <p>Mais de 10 anos de experiência em confeitaria fina</p>
+                        <p>Mais de 10 anos de experiência em confeitaria fina.</p>
                     </div>
                 </div>
             </div>
@@ -327,18 +57,18 @@
                 <p>Faça login para acessar sua conta e aproveitar ofertas exclusivas</p>
             </div>
             
-            <form action="index.html">
+            <form id="loginForm" action="{{ url_for('login_traditional') }}" method="POST">
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" placeholder="voce@email.com" required>
+                    <input type="email" id="email" name="email" placeholder="voce@email.com" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="••••••••" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">
+                <button type="button" id="submitLogin" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i>
                     Entrar
                 </button>
@@ -347,21 +77,21 @@
                     <span>ou</span>
                 </div>
                 
-                <button type="button" class="btn btn-google">
+                <a href="{{ url_for('login') }}" class="btn btn-google">
                     <img src="https://pngimg.com/uploads/google/google_PNG19630.png" alt="Google" class="google-icon">
                     Entrar com o Google
-                </button>
+                </a>
                 
                 <div class="signup-link">
-                    Não tem uma conta? <a href="cadastro.html">Crie sua conta aqui</a>
+                Não tem uma conta? <a href="{{ url_for('cadastro') }}">Crie sua conta aqui</a>
                 </div>
 
                 <div class="guest-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #f0f0f0;">
                     <h4 style="text-align: center; color: #555; margin-bottom: 15px;">Não quer criar uma conta?</h4>
-                    <button type="button" class="btn" style="background: #f8f8f8; color: #555; border: 1px solid #e0e0e0;" onclick="window.location.href='index.html'">
+                    <a href="{{ url_for('home') }}" class="btn" style="background: #f8f8f8; color: #555; border: 1px solid #e0e0e0;">
                         <i class="fas fa-user"></i>
                         Continuar como convidado
-                    </button>
+                    </a>
                 </div>
             </form>
             
@@ -372,11 +102,9 @@
     </div>
     
     <script>
-        // Simulação de login
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.getElementById('submitLogin').addEventListener('click', function(e) {
             e.preventDefault();
-            // Aqui você pode adicionar a lógica de autenticação
-            window.location.href = 'index.html';
+            document.getElementById('loginForm').submit();
         });
     </script>
 </body>
