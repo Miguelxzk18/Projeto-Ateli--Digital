@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Carrinho - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/Style/Style_carrinho.css">
+</head>
+<body>
+   <div class="app-container">
+        <header class="client-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
+                <div style="display: flex; gap: 8px;">
+                    <a href="#" style="display: flex; align-items: center;">
+                        <img src="{{ url_for('static', filename='Imagens/whatsapp.png') }}" alt="WhatsApp" style="height: 25px;">
+                    </a>
+                    <a href="https://www.instagram.com/confeitariakarlapriscilia/" style="display: flex; align-items: center;">
+                        <img src="{{ url_for('static', filename='Imagens/instagram.png') }}" alt="Instagram" style="height: 25px;">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="header-icons" style="display: flex; align-items: center; gap: 10px;">
+                <a href="{{ url_for('home') }}" style="display: flex; align-items: center; text-decoration: none; color: #333; background-color: #f78f9a27; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 8px 15px; font-size: 14px; font-weight: 500; transition: all 0.2s;">
+                    <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Voltar
+                </a>
+                <a href="{{ url_for('perfil') }}" class="profile-icon" style="color: #333; padding: 8px;">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="{{ url_for('carrinho') }}" class="cart-icon" style="position: relative; color: #333; padding: 8px;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" style="position: absolute; top: 0; right: 0; background-color: #f78f9a; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
+                </a>
+            </div>
+        </header>
+
+    
+    <div class="container">
+        <main class="main-content">
+            <h1 class="page-title">Seu Carrinho</h1>
+            
+            {% set ns = namespace(subtotal=subtotal) %}
+            {% for item in cart %}
+            {% set line_total = item.price * item.qty %}
+            {% set ns.subtotal = ns.subtotal + line_total %}
+            <div class="cart-item" data-name="{{ item.name }}">
+                <img src="{{ item.image }}" alt="{{ item.name }}" class="item-image">
+                <div class="item-details" style="flex:1;">
+                    <div class="item-name">{{ item.name }}</div>
+                    <div class="item-price" data-price="{{ item.price }}">R$ {{ '%.2f'|format(item.price) }}</div>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn btn-dec">-</button>
+                    <span class="quantity">{{ item.qty }}</span>
+                    <button class="quantity-btn btn-inc">+</button>
+                </div>
+                <div class="item-total">R$ {{ '%.2f'|format(line_total) }}</div>
+                <div class="remove-item" title="Remover"><i class="fas fa-trash"></i></div>
+            </div>
+            {% else %}
+            <p>Seu carrinho está vazio.</p>
+            {% endfor %}
+        </main>
+        
+        <aside class="order-summary">
+            <h2>Resumo do pedido</h2>
+            
+            <div class="delivery-options">
+                <h3 class="section-title">Opções de recebimento</h3>
+                <label class="delivery-option">
+                    <input type="radio" name="delivery-option" checked>
+                    <span class="radio-custom"></span>
+                    <span>Entrega</span>
+                </label>
+                <label class="delivery-option">
+                    <input type="radio" name="delivery-option">
+                    <span class="radio-custom"></span>
+                    <span>Retirada</span>
+                </label>
+            </div>
+            
+            <div class="address-section">
+                <h3>Endereço de entrega</h3>
+                <div class="delivery-option">
+                    <input type="radio" name="delivery-address" id="address-1" checked>
+                    <span class="radio-custom"></span>
+                    <label for="address-1">
+                        <div class="address-text">
+                            {{ user.endereco if user.endereco else 'Nenhum endereço cadastrado' }}
+                        </div>
+                    </label>
+                </div>
+                
+                <button class="add-address-btn">
+                    <i class="fas fa-plus"></i>
+                    Adicionar um novo endereço de entrega
+                </button>
+            </div>
+            
+            <div class="schedule-section">
+                <h3>Agende</h3>
+                <div class="schedule-inputs">
+                    <div class="input-group">
+                        <input type="date" id="delivery-date" name="delivery-date" min="" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="time" id="delivery-time" name="delivery-time" min="09:00" max="18:00" step="3600" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-totals">
+            
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>R$ {{ '%.2f'|format(ns.subtotal) }}</span>
+            </div>
+            
+            <div class="summary-row delivery-fee">
+                <span>Taxa de entrega</span>
+                <span class="free">Grátis</span>
+            </div>
+            
+            </div>
+            
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>R$ {{ '%.2f'|format(ns.subtotal) }}</span>
+            </div>
+            
+            <a href="{{ url_for('pagamento') }}" class="btn-checkout">Ir para Pagamento</a>
+        </aside>
+    </div>
+    
+    <script>
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.cart-item').remove();
+                updateOrderSummary();
+            });
+        });
+        
+        function updateOrderSummary() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const totalText = item.querySelector('.item-total').textContent;
+                const totalValue = parseFloat(totalText.replace('R$', '').replace(',', '.'));
+                subtotal += totalValue;
+            });
+            
+            document.querySelector('.summary-row:first-child span:last-child').textContent = 
+                `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+                
+            document.querySelector('.summary-row.total span:last-child').textContent = 
+                `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+        }
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('delivery-date').min = today;
+        updateOrderSummary();
+
+        const deliveryRadios = document.querySelectorAll('input[name="delivery-option"]');
+        deliveryRadios.forEach(radio => {
+            radio.addEventListener('change', updateDeliveryVisibility);
+        });
+
+        function updateDeliveryVisibility() {
+            const entregaChecked = deliveryRadios[0].checked;
+            const addressSection  = document.querySelector('.address-section');
+            const scheduleSection = document.querySelector('.schedule-section');
+            const deliveryFeeRow  = document.querySelector('.delivery-fee');
+            if (entregaChecked) {
+                addressSection.style.display  = '';
+                scheduleSection.style.display = '';
+            } else {
+                addressSection.style.display  = 'none';
+                scheduleSection.style.display = 'none';
+            }
+            deliveryFeeRow.style.display = '';
+        }
+
+        updateDeliveryVisibility();
+        const badge = parent.document ? parent.document.getElementById('cart-count') : null;
+        function recalcTotals(){
+        let subtotal=0;
+        document.querySelectorAll('.cart-item').forEach(it=>{
+            const price=parseFloat(it.querySelector('.item-price').dataset.price);
+            const qty  =parseInt(it.querySelector('.quantity').textContent);
+            const total=price*qty;
+            it.querySelector('.item-total').textContent=`R$ ${total.toFixed(2)}`;
+            subtotal+=total;
+        });
+        document.querySelectorAll('.summary-row.total span:last-child')[0].textContent=`R$ ${subtotal.toFixed(2)}`;
+        }
+
+        document.addEventListener('click',e=>{
+        const dec=e.target.closest('.btn-dec');
+        const inc=e.target.closest('.btn-inc');
+        const rem=e.target.closest('.remove-item');
+        if(!dec&&!inc&&!rem) return;
+        const itemEl = e.target.closest('.cart-item');
+        const name = itemEl.dataset.name;
+        let actionPromise;
+        if(rem){ actionPromise = fetch('/cart/remove',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})}); }
+        else{ const delta = inc?1:-1; actionPromise = fetch('/cart/update',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,delta})}); }
+        actionPromise.then(r=>r.json()).then(j=>{
+            if(j.count!==undefined && badge){ badge.textContent=j.count; }
+            if(rem){ itemEl.remove(); }
+            else{
+                const qEl=itemEl.querySelector('.quantity');
+                let q=parseInt(qEl.textContent)+ (inc?1:-1);
+                if(q<=0){ itemEl.remove(); } else { qEl.textContent=q; }
+            }
+            recalcTotals();
+        });
+        });
+    </script>
+    
+</body>
+</html>
