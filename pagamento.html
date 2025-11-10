@@ -4,405 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento - Karla Priscilia Confeitaria</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary-pink: #F7C0C0;
-            --primary-pink-dark: #E6A8A8;
-            --bg-light-pink: #FFFBFB;
-            --card-bg-light: #FFF6F6;
-            --text-dark: #333333;
-            --text-light: #555555;
-            --border-color: #E0E0E0;
-            --white: #FFFFFF;
-            --green: #4CAF50;
-            --blue: #3498db;
-            --orange: #f39c12;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Nunito', sans-serif;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: #f0f2f5;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-container {
-            max-width: 100%;
-            width: 100%;
-            margin: 0 auto;
-            min-height: 100vh;
-            background-color: var(--bg-light-pink);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-        }
-
-        .client-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 15%;
-            background-color: var(--white);
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo {
-            height: 50px;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .social-icons img {
-            height: 25px;
-            width: 25px;
-            object-fit: contain;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .back-button {
-            display: flex;
-            align-items: center;
-            background: rgba(247, 143, 154, 0.15);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            padding: 8px 15px;
-            font-size: 14px;
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .back-button i {
-            margin-right: 5px;
-        }
-
-        .header-icon {
-            color: #333;
-            font-size: 20px;
-            position: relative;
-            text-decoration: none;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--primary-pink);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .page-content {
-            padding: 40px 15%;
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .order-summary {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            height: fit-content;
-            position: sticky;
-            top: 40px;
-        }
-        
-        .payment-methods {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        @media (max-width: 1024px) {
-            .page-content {
-                padding: 20px 5%;
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .order-summary {
-                position: static;
-            }
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-dark);
-            margin-bottom: 5px;
-        }
-
-        .page-subtitle {
-            color: var(--text-light);
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 15px;
-        }
-
-        .order-summary {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
-        }
-
-        .order-total {
-            font-weight: 700;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 2px solid var(--border-color);
-            font-size: 16px;
-        }
-
-        .payment-methods {
-            margin-bottom: 20px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding-bottom: 5px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 15px 25px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 16px;
-            transition: all 0.2s;
-            background: white;
-            min-width: 180px;
-            text-align: center;
-        }
-        
-        .tab:hover {
-            background: #f9f9f9;
-            transform: translateY(-2px);
-        }
-
-        .tab.active {
-            background: var(--primary-pink);
-            border-color: var(--primary-pink);
-            color: var(--text-dark);
-        }
-
-        .tab-content {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 15px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .pix-content {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .pix-qr {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-            background: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-        }
-
-        .success-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background-color: var(--primary-pink);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 40px;
-        }
-
-        .success-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-
-        .success-message {
-            color: var(--text-light);
-            line-height: 1.5;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-pink);
-            color: var(--text-dark);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-pink-dark);
-        }
-
-        .btn-outline {
-            background: white;
-            border: 1px solid var(--border-color);
-            color: var(--text-dark);
-            margin-top: 10px;
-        }
-    </style>    
+    <link rel="stylesheet" href="../static/Style/Style_pagamento.css">
+ 
 </head>
 <body>
 
    <div class="app-container">
         <header class="client-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
-            <!-- Logo e redes sociais -->
             <div style="display: flex; align-items: center; gap: 15px;">
-                <img src="Imagens/logo/cake + title logo.png" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
+                <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
                 <div style="display: flex; gap: 8px;">
                     <a href="#" style="display: flex; align-items: center;">
-                        <img src="Imagens/whatsapp.png" alt="WhatsApp" style="height: 25px;">
+                        <img src="{{ url_for('static', filename='Imagens/whatsapp.png') }}" alt="WhatsApp" style="height: 25px;">
                     </a>
                     <a href="https://www.instagram.com/confeitariakarlapriscilia/" style="display: flex; align-items: center;">
-                        <img src="Imagens/instagram.png" alt="Instagram" style="height: 25px;">
+                        <img src="{{ url_for('static', filename='Imagens/instagram.png') }}" alt="Instagram" style="height: 25px;">
                     </a>
                 </div>
             </div>
             
-            <!-- Ícones de perfil e carrinho -->
             <div class="header-icons" style="display: flex; align-items: center; gap: 10px;">
-                <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: #333; background-color: #f78f9a27; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 8px 15px; font-size: 14px; font-weight: 500; transition: all 0.2s;">
+                <a href="{{ url_for('carrinho') }}" style="display: flex; align-items: center; text-decoration: none; color: #333; background-color: #f78f9a27; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 8px 15px; font-size: 14px; font-weight: 500; transition: all 0.2s;">
                     <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Voltar
                 </a>
-                <a href="perfil.html" class="profile-icon" style="color: #333; padding: 8px;">
+                <a href="{{ url_for('perfil') }}" class="profile-icon" style="color: #333; padding: 8px;">
                     <i class="fas fa-user"></i>
                 </a>
-                <a href="carrinho.html" class="cart-icon" style="position: relative; color: #333; padding: 8px;">
+                <a href="{{ url_for('carrinho') }}" class="cart-icon" style="position: relative; color: #333; padding: 8px;">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" style="position: absolute; top: 0; right: 0; background-color: #f78f9a; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
                 </a>
@@ -413,20 +42,22 @@
             <h1 class="page-title">Pagamento</h1>
             <p class="page-subtitle">Complete o seu pagamento com segurança.</p>
 
-            <!-- Order Summary -->
             <div class="order-summary">
                 <h2 class="section-title">Resumo do pedido</h2>
-                <div class="order-item">
-                    <span>Bolo de Chocolate (1 kg) (1x R$ 110,00)</span>
-                    <span>R$ 110,00</span>
-                </div>
-                <div class="order-item">
-                    <span>Brownie Recheado (10x R$ 7,00)</span>
-                    <span>R$ 70,00</span>
-                </div>
+                {% set ns = namespace(subtotal=0) %}
+                {% for item in cart %}
+                    {% set line_total = item.price * item.qty %}
+                    {% set ns.subtotal = ns.subtotal + line_total %}
+                    <div class="order-item">
+                        <span>{{ item.name }} ({{ item.qty }}x R$ {{ '%.2f'|format(item.price) }})</span>
+                        <span>R$ {{ '%.2f'|format(line_total) }}</span>
+                    </div>
+                {% else %}
+                    <p>Seu carrinho está vazio.</p>
+                {% endfor %}
                 <div class="order-item">
                     <span>Subtotal</span>
-                    <span>R$ 180,00</span>
+                    <span>R$ {{ '%.2f'|format(ns.subtotal) }}</span>
                 </div>
                 <div class="order-item">
                     <span>Entrega</span>
@@ -434,11 +65,10 @@
                 </div>
                 <div class="order-item order-total">
                     <span>Total</span>
-                    <span>R$ 180,00</span>
+                    <span>R$ {{ '%.2f'|format(ns.subtotal) }}</span>
                 </div>
             </div>
 
-            <!-- Payment Methods -->
             <div class="payment-methods">
                 <h2 class="section-title">Método de Pagamento</h2>
                 <div class="tabs">
@@ -448,7 +78,6 @@
                     <div class="tab" data-tab="dinheiro">Dinheiro</div>
                 </div>
 
-                <!-- Credit Card Form -->
                 <div id="credito" class="tab-content active">
                     <form id="creditCardForm">
                         <div class="form-group">
@@ -473,7 +102,6 @@
                     <button type="button" class="btn btn-primary" id="confirmPayment">Confirmar pagamento</button>
                 </div>
 
-                <!-- Debit Card Form (same as credit card) -->
                 <div id="debito" class="tab-content">
                     <form id="debitCardForm">
                         <div class="form-group">
@@ -498,19 +126,16 @@
                     <button type="button" class="btn btn-primary" id="confirmDebitPayment">Confirmar pagamento</button>
                 </div>
 
-                <!-- PIX Payment -->
                 <div id="pix" class="tab-content">
                     <div class="pix-content">
                         <p>Escaneie o QR code com o aplicativo do seu banco.</p>
                         <div class="pix-qr">
-                            <!-- QR Code will be generated here -->
                             <i class="fas fa-qrcode" style="font-size: 60px; color: #ccc;"></i>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary" id="confirmPixPayment">Confirmar pagamento</button>
                 </div>
 
-                 <!-- Cash Payment -->
                 <div id="dinheiro" class="tab-content">
                     <div class="form-group">
                         <label for="troco">Você vai precisar de troco? Caso sim, para quanto?</label>
@@ -520,39 +145,35 @@
                 </div>
             </div>
         </main>
-                <!-- Success Screen (initially hidden) -->
+            
         <div class="success-screen">
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
             <h2 class="success-title">Pagamento efetuado com sucesso!</h2>
             <p class="success-message">
-                Obrigada por nos escolher! A confirmação do pagamento junto com todas as informações 
+                Obrigada por nos escolher! A confirmação do pagamento junto com todas as informações
                 do seu pedido foram encaminhadas ao seu e-mail.
             </p>
-            <a href="index.html" class="btn btn-primary">Voltar à página inicial</a>
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Voltar à página inicial</a>
         </div>
     </div>
     
        <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Tab switching functionality
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
             const paymentContainer = document.querySelector('.payment-methods');
             const successScreen = document.querySelector('.success-screen');
             const confirmButtons = document.querySelectorAll('[id^="confirm"]');
 
-            // Switch tabs
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const tabId = tab.getAttribute('data-tab');
                     
-                    // Update active tab
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     
-                    // Show corresponding content
                     tabContents.forEach(content => {
                         content.classList.remove('active');
                         if (content.id === tabId) {
@@ -562,22 +183,23 @@
                 });
             });
 
-            // Handle payment confirmation
-            function handlePaymentConfirmation() {
-                // Hide payment container and show success screen
-                paymentContainer.style.display = 'none';
-                successScreen.style.display = 'block';
-                
-                // Scroll to top of success message
-                successScreen.scrollIntoView({ behavior: 'smooth' });
+            async function handlePaymentConfirmation(method) {
+                const total = parseFloat(document.querySelector('.order-total span:last-child').textContent.replace('R$','').replace(',','.'));
+                const resp = await fetch('/pagamento/confirm', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method, total})});
+                if(resp.ok){
+                    window.location.href = '/perfil';
+                    return;
+                }
+                paymentContainer.style.display='none';
+                successScreen.style.display='block';
+                successScreen.scrollIntoView({behavior:'smooth'});
             }
 
-            // Add click event to all confirm buttons
-            confirmButtons.forEach(button => {
-                button.addEventListener('click', handlePaymentConfirmation);
-            });
+            document.getElementById('confirmPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('credito'));
+            document.getElementById('confirmDebitPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('debito'));
+            document.getElementById('confirmPixPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('pix'));
+            document.getElementById('confirmCashPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('dinheiro'));
 
-            // Format credit card number
             const cardNumberInputs = document.querySelectorAll('input[placeholder*="0000 0000"]');
             cardNumberInputs.forEach(input => {
                 input.addEventListener('input', function(e) {
@@ -587,7 +209,6 @@
                 });
             });
 
-            // Format expiry date
             const expiryInputs = document.querySelectorAll('input[placeholder="MM/AA"]');
             expiryInputs.forEach(input => {
                 input.addEventListener('input', function(e) {
@@ -599,7 +220,6 @@
                 });
             });
 
-            // Format CVC
             const cvcInputs = document.querySelectorAll('input[placeholder="000"]');
             cvcInputs.forEach(input => {
                 input.addEventListener('input', function(e) {
