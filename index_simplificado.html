@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio - Karla Priscilia Confeitaria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/Style/Style_Index.css">
+    
+    <style>
+
+        .product-image{
+            width:100%;
+            height:180px;
+            border-radius:8px;
+            background:#eee;
+            overflow:hidden;
+        }
+        .product-image img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="client-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
+            
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
+                <div style="display: flex; gap: 8px;">
+                    <a href="#" style="display: flex; align-items: center;">
+                        <img src="{{ url_for('static', filename='Imagens/whatsapp.png') }}" alt="WhatsApp" style="height: 25px;">
+                    </a>
+                    <a href="https://www.instagram.com/confeitariakarlapriscilia/" style="display: flex; align-items: center;">
+                        <img src="{{ url_for('static', filename='Imagens/instagram.png') }}" alt="Instagram" style="height: 25px;">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="header-icons" style="display: flex; gap: 15px;">
+
+                {% if user and user.name %}
+                <div class="user-header-info">
+                    <img src="{{ user.picture }}" alt="Foto de Perfil">
+                    <span>Olá, {{ user.given_name or user.name }}</span>
+                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </div>
+                {% else %}
+                <a href="{{ url_for('index') }}" class="profile-icon">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                {% endif %}
+                
+                <a href="{{ url_for('perfil') }}" class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </a>
+                
+                <a href="{{ url_for('carrinho') }}" class="cart-icon" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" style="position: absolute; top: -8px; right: -8px; background-color: #f78f9a; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="menu-header">
+                <h2>Nosso Cardápio</h2>
+                <p>Doces, com amor</p>
+            </div>
+
+            <nav class="category-filter" id="categoryFilter">
+                <a href="#" class="filter-link active" data-category="all">Todos</a>
+                <a href="#" class="filter-link" data-category="bolos">Bolos</a>
+                <a href="#" class="filter-link" data-category="doces-finos">Doces Finos</a>
+                <a href="#" class="filter-link" data-category="doces-individuais">Doces Individuais</a>
+                <a href="#" class="filter-link" data-category="salgados">Salgados</a>
+                <a href="#" class="filter-link" data-category="combos">Combos</a>
+            </nav>
+
+            <section class="product-grid">
+                
+                <article class="product-card" data-category="bolos">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/bolo personalizado.jpg') }}" alt="Bolo Personalizado">
+                        <span class="price-badge">R$ 110,00 - R$ 150,00</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Bolo Personalizado (1 kg)</h4>
+                        <p>Monte o seu bolo personalizado conosco! Escolha cobertura, massa, recheio e o tema da sua festa!</p>
+                        <span class="category-tag">Bolos</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="doces-finos">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/brigadeiro.jpg') }}" alt="Brigadeiros">
+                        <span class="price-badge">R$ 120,00</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Brigadeiros (100 un.)</h4>
+                        <p>100 unidades de brigadeiros simples</p>
+                        <span class="category-tag">Doces Finos e Tradicionais</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="doces-finos">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/brigadeiros gourmet.jpg') }}" alt="Brigadeiros Gourmet">
+                        <span class="price-badge">R$ 150,00</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Brigadeiros Gourmet (100 un.)</h4>
+                        <p>100 unidades de brigadeiros gourmet.</p>
+                        <span class="category-tag">Doces Finos e Tradicionais</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="doces-individuais">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/brownie recheado.jpg') }}" alt="Brownie Recheado">
+                        <span class="price-badge">R$ 7,00</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Brownie Recheado</h4>
+                        <p>Um delicioso brownie recheado.</p>
+                        <span class="category-tag">Doces Individuais</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="salgados">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/salgados tradicionais.png') }}" alt="Salgados Tradicionais">
+                        <span class="price-badge">R$ 110,00</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Salgados Tradicionais (100 un.)</h4>
+                        <p>100 unidades de salgados simples. Coxinhas, pastéis, bolinhas de queijo...</p>
+                        <span class="category-tag">Salgados</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="salgados">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/salgados especiais.jpeg') }}" alt="Salgados Especiais">
+                        <span class="price-badge">R$ 150,00</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Salgados Especiais (100 un.)</h4>
+                        <p>100 unidades de salgados especiais. Camarão empanado, croquete de carne seca...</p>
+                        <span class="category-tag">Salgados</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="salgados">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/mini hamburguer.png') }}" alt="Mini Hambúrguer">
+                        <span class="price-badge">R$ 3,50</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Mini Hambúrguer</h4>
+                        <p>Um delicioso mini hambúrguer.</p>
+                        <span class="category-tag">Salgados</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="salgados">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='Imagens/mini cachorros quentes.jpg') }}" alt="Mini Cachorro Quente">
+                        <span class="price-badge">R$ 3,50</span>
+                    </div>
+                    <div class="product-details">
+                        <h4>Mini Cachorro Quente</h4>
+                        <p>Um delicioso mini cachorro quente.</p>
+                        <span class="category-tag">Salgados</span>
+                        <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                    </div>
+                </article>
+
+            </section>
+        </main>
+    </div>
+   
+    <script>
+
+        let cartCount = 0;
+        const cartCountElement = document.getElementById('cart-count');
+        
+        function updateCartCount() {
+            cartCountElement.textContent = cartCount;
+            cartCountElement.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                cartCountElement.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        document.addEventListener('click', function(e){
+            const btn = e.target.closest('.btn-add-to-cart');
+            if(!btn) return;
+            e.preventDefault();
+
+            const card  = btn.closest('.product-card');
+            const name  = card.querySelector('.product-details h4').innerText;
+            const price = parseFloat(card.querySelector('.price-badge').innerText.match(/\d+[\.,]\d+/)[0].replace(',', '.'));
+            const imgEl = card.querySelector('.product-image img');
+            const image = imgEl ? imgEl.src : null;
+
+            fetch('/cart/add', {
+                method:'POST',
+                credentials:'same-origin',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({name, price, qty:1, image})
+            })
+            .then(r=>r.json())
+            .then(j=>{
+                if(j.count!==undefined){
+                    cartCount = j.count;
+                    updateCartCount();
+                    btn.innerHTML='<i class="fas fa-check"></i> Adicionado!';
+                    btn.style.backgroundColor='#4CAF50';
+                    setTimeout(()=>{
+                        btn.innerHTML='<i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho';
+                        btn.style.backgroundColor='#F99CA6';
+                    },1500);
+                }else{
+                    alert(j.erro||'Falha ao adicionar');
+                }
+            })
+            .catch(err=>{
+                console.error('add cart', err);
+                alert('Erro de rede');
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            fetch('/cart/items', {credentials:'same-origin'})
+              .then(r=>r.json())
+              .then(items=>{
+                cartCount = items.reduce((s,i)=>s+i.qty,0);
+                updateCartCount();
+              });
+
+            const productGrid = document.querySelector('.product-grid');
+            try{
+                const respProd = await fetch('/api/produtos');
+                const lista = await respProd.json();
+                productGrid.innerHTML = '';
+                lista.forEach(p=>{
+                    const catSlug = (p.categoria||'').toLowerCase().replace(/\s+/g,'-') || 'all';
+                    const art = document.createElement('article');
+                    art.className = 'product-card';
+                    art.dataset.category = catSlug;
+                    const imgHtml = p.foto ? `<img src="${p.foto}" alt="${p.nome}">` : '';
+                    art.innerHTML = `
+                        <div class="product-image">
+                            ${imgHtml}
+                            <span class="price-badge">R$ ${parseFloat(p.valor).toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <div class="product-details">
+                            <h4>${p.nome}</h4>
+                            <p>${p.descricao}</p>
+                            <span class="category-tag">${p.categoria||''}</span>
+                            <a href="#" class="btn btn-primary btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                        </div>`;
+                    productGrid.appendChild(art);
+                });
+            }catch(e){console.error('load produtos',e);}
+
+            const filterButtons = document.querySelectorAll('.filter-link');
+            const productCards = document.querySelectorAll('.product-card');
+
+            function reorganizarItens() {
+                productCards.forEach(card => card.classList.remove('hidden'));
+                
+                void productGrid.offsetHeight;
+                
+                const activeButton = document.querySelector('.filter-link.active');
+                if (!activeButton) return;
+                
+                const selectedCategory = activeButton.getAttribute('data-category');
+                
+                productCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    const deveMostrar = selectedCategory === 'all' || cardCategory === selectedCategory;
+                    
+                    if (!deveMostrar) {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                productGrid.style.display = 'none';
+                void productGrid.offsetHeight;
+                productGrid.style.display = 'grid';
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    reorganizarItens();
+                    setTimeout(reorganizarItens, 50);
+                });
+            });
+            reorganizarItens();
+        });
+    </script>
+</body>
+</html>
