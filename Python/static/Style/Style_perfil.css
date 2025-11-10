@@ -447,3 +447,52 @@ body {
         .btn-save:hover {
             background-color: var(--primary-pink-dark);
         }
+.order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fcecee;
+  padding: 18px 24px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: background .2s ease;
+}
+
+.order-card:hover {
+  background: #f7e3e6;
+}
+
+.order-left p {
+  margin: 0;
+}
+
+.order-id {
+  font-weight: 600;
+}
+
+.order-date {
+  font-size: .875rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+.order-right {
+  text-align: right;
+}
+
+.order-pay,
+.order-status {
+  font-size: .875rem;
+  margin: 0;
+}
+
+.order-status {
+  font-weight: 600;
+}
+
+.order-card i {
+  margin-left: 12px;
+  color: #999;
+}
