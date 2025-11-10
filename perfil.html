@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
+            --card-bg:#f7ecef;
             --primary-pink: #F7C0C0;
             --primary-pink-dark: #E6A8A8;
             --text-dark: #333;
@@ -117,7 +118,16 @@
             position: relative;
         }
 
-        .profile-avatar {
+        .profile-avatar-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--primary-pink);
+        }
+        
+        .profile-avatar-fallback {
             width: 70px;
             height: 70px;
             background-color: var(--primary-pink);
@@ -220,82 +230,39 @@
         .btn-save:hover {
             background-color: var(--primary-pink-dark);
         }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-        }
-
-        .order-item {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            position: relative;
-            padding-right: 50px;
-        }
-
-        .order-item h5 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: var(--text-dark);
-        }
-
-        .order-item p {
-            color: var(--text-light);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .order-status {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-
-        .status-confirmed {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: var(--success);
-        }
-
-        .status-received {
-            background-color: rgba(255, 160, 0, 0.1);
-            color: var(--warning);
-        }
-
-        .order-arrow {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo">
-                <img src="Imagens/logo/cake + title logo.png" alt="Karla Priscilia Confeitaria">
+                
+                <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Karla Priscilia Confeitaria">
             </div>
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
+                        <a href="{{ url_for('perfil') }}" class="nav-link active">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link">
+                        <a href="{{ url_for('home') }}" class="nav-link">
                             <i class="fas fa-utensils"></i>
                             <span>Cardápio</span>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a href="{{ url_for('carrinho') }}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Carrinho</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Sair</span>
                         </a>
                     </li>
                 </ul>
@@ -308,36 +275,49 @@
             </div>
 
             <div class="profile-card">
-                <div class="profile-avatar">SO</div>
+                {% if user.picture %}
+                    <img src="{{ user.picture }}" alt="Foto de Perfil" class="profile-avatar-img">
+                {% else %}
+                    <div class="profile-avatar-fallback">
+                        {{ user.name[0] if user.name else 'U' }}
+                    </div>
+                {% endif %}
+
                 <a href="#" class="profile-edit-btn" onclick="toggleEditMode()">
                     <i class="fas fa-pen"></i>
                     <span>Editar perfil</span>
                 </a>
+                
                 <div class="profile-info">
                     <div class="view-mode">
-                        <h4>Sophia Oliveira</h4>
-                        <p>
-                            CPF: 123.456.789-00<br>
-                            Endereço: Rua do Arco, 123, Gramame - 58069349, João Pessoa/PB<br>
-                            Celular: (83) 91234-5678
+                        <h4>{{ user.name }}</h4>
+                        <p>Email: {{ user.email }}</p>
+                        <p style="margin-top: 10px; color: var(--text-light);">
+                            CPF: {{ user.cpf if user.cpf else '(Não informado)' }}<br>
+                            Endereço: {{ user.endereco if user.endereco else '(Não informado)' }}<br>
+                            Celular: {{ user.celular if user.celular else '(Não informado)' }}
                         </p>
+                        <small style="display:block; margin-top:15px; color: #999;">
+                            Clique em "Editar perfil" para adicionar seus dados.
+                        </small>
                     </div>
+
                     <div class="edit-mode" style="display: none;">
                         <div class="form-group">
                             <label>Nome:</label>
-                            <input type="text" class="form-control" value="Sophia Oliveira">
+                            <input type="text" class="form-control" value="{{ user.name }}">
                         </div>
                         <div class="form-group">
                             <label>CPF:</label>
-                            <input type="text" class="form-control cpf-mask" value="123.456.789-00">
+                            <input type="text" class="form-control cpf-mask" placeholder="000.000.000-00" value="{{ user.cpf }}">
                         </div>
                         <div class="form-group">
                             <label>Endereço:</label>
-                            <input type="text" class="form-control" value="Rua do Arco, 123, Gramame - 58069349, João Pessoa/PB">
+                            <input type="text" class="form-control" placeholder="Rua, Número, Bairro, CEP..." value="{{ user.endereco }}">
                         </div>
                         <div class="form-group">
                             <label>Celular:</label>
-                            <input type="tel" class="form-control phone-mask" value="(83) 91234-5678">
+                            <input type="tel" class="form-control phone-mask" placeholder="(00) 90000-0000" value="{{ user.celular }}">
                         </div>
                         <div class="form-actions">
                             <button type="button" class="btn btn-cancel" onclick="toggleEditMode()">Cancelar</button>
@@ -347,24 +327,36 @@
                 </div>
             </div>
 
+            <section style="margin-top:50px;">
+                <h2 class="section-title" style="font-size:24px;font-weight:700;margin-bottom:24px;">Pedidos Feitos</h2>
 
-            <h2 class="section-title">Pedidos Feitos</h2>
+                <style>
+                    .order-card{display:flex;justify-content:space-between;align-items:center;background:#fcecee;padding:18px 24px;border-radius:14px;margin-bottom:20px;text-decoration:none;color:#1a1a1a;transition:background .2s ease}.order-card:hover{background:#f7e3e6}.order-left p{margin:0}.order-id{font-weight:600}.order-date{font-size:.875rem;color:#666;margin-top:2px}.order-right{text-align:right}.order-pay,.order-status{font-size:.875rem;margin:0}.order-status{font-weight:600}.order-card i{margin-left:12px;color:#999}
+                </style>
 
-            <div class="order-item">
-                <h5>Pedido #1234</h5>
-                <p>Feito dia 15 de outubro de 2025 às 14:40</p>
-                <p>Pagamento: Cartão de Crédito</p>
-                <span class="order-status status-confirmed">Confirmado</span>
-                <i class="fas fa-chevron-right order-arrow"></i>
-            </div>
-
-            <div class="order-item">
-                <h5>Pedido #1155</h5>
-                <p>Feito dia 10 de outubro de 2025 às 10:20</p>
-                <p>Pagamento: PIX</p>
-                <span class="order-status status-received">Recebido</span>
-                <i class="fas fa-chevron-right order-arrow"></i>
-            </div>
+                {% if pedidos %}
+                    {% for p in pedidos %}
+                    <a href="#" class="order-card">
+                        <div class="order-left">
+                            <p class="order-id">Pedido #{{ loop.index }}</p>
+                            <p class="order-date">Feito dia {{ p.criado_em.strftime('%d/%m/%Y às %H:%M') if p.criado_em else '' }}</p>
+                        </div>
+                        <div class="order-right">
+                            <p class="order-pay">Pagamento: {{ p.metodo }}</p>
+                            <p class="order-status">Total: R$ {{ '%.2f'|format(p.total) }}</p>
+                        </div>
+                    </a>
+                    <ul style="margin:8px 0 20px 0;padding-left:20px;list-style:disc;color:#666;font-size:0.9rem;">
+                        {% for it in p.itens_list %}
+                            <li>{{ it.qty }}x {{ it.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align:center;color:#888;">Você ainda não realizou nenhum pedido.</p>
+                {% endif %}
+            </section>
 
         </main>
     </div>
@@ -378,17 +370,11 @@
             viewMode.style.display = isEditing ? 'block' : 'none';
             editMode.style.display = isEditing ? 'none' : 'block';
             
-            // Atualiza o texto do botão
             const editButton = document.querySelector('.profile-edit-btn');
             editButton.querySelector('span').textContent = isEditing ? 'Editar perfil' : 'Cancelar';
         }
 
         function saveProfile() {
-            // Aqui você pode adicionar a lógica para salvar os dados
-            alert('Perfil atualizado com sucesso!');
-            toggleEditMode();
-            
-            // Atualiza os valores exibidos com os valores dos inputs
             const inputs = document.querySelectorAll('.edit-mode .form-control');
             const userData = {
                 name: inputs[0].value,
@@ -396,20 +382,42 @@
                 address: inputs[2].value,
                 phone: inputs[3].value
             };
-            
-            // Atualiza a visualização com os novos valores
-            const viewMode = document.querySelector('.view-mode');
-            viewMode.innerHTML = `
-                <h4>${userData.name}</h4>
-                <p>
-                    CPF: ${userData.cpf}<br>
-                    Endereço: ${userData.address}<br>
-                    Celular: ${userData.phone}
-                </p>
-            `;
+
+            fetch('/perfil/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.msg) {
+                    console.log(json.msg);
+                    const viewMode = document.querySelector('.view-mode');
+                    viewMode.innerHTML = `
+                        <h4>${userData.name}</h4>
+                        <p>Email: {{ user.email }}</p>
+                        <p style="margin-top: 10px; color: var(--text-light);">
+                            CPF: ${userData.cpf || '(Não informado)'}<br>
+                            Endereço: ${userData.address || '(Não informado)'}<br>
+                            Celular: ${userData.phone || '(Não informado)'}
+                        </p>
+                        <small style="display:block; margin-top:15px; color: #999;">
+                            Clique em \"Editar perfil\" para atualizar novamente.
+                        </small>
+                    `;
+                    toggleEditMode();
+                } else {
+                    alert(json.erro || 'Falha ao atualizar.');
+                }
+            })
+            .catch(err => {
+                console.error('Erro ao salvar perfil:', err);
+                alert('Erro de comunicação com o servidor.');
+            });
         }
 
-        // Máscara para CPF
         document.addEventListener('DOMContentLoaded', function() {
             const cpfInput = document.querySelector('.cpf-mask');
             if (cpfInput) {
@@ -422,7 +430,6 @@
                 });
             }
 
-            // Máscara para telefone
             const phoneInput = document.querySelector('.phone-mask');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
