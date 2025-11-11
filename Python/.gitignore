@@ -1,0 +1,9 @@
+# Ignorar o ambiente virtual
+venv/
+
+# Ignorar o arquivo de segredos
+.env
+
+# Opcional, mas recomendado
+__pycache__/
+*.pyc
