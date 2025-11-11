@@ -5,36 +5,267 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Karla Priscilia Confeitaria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../static/Style/Style_perfil.css">
+    <style>
+        :root {
+            --card-bg:#f7ecef; /* cor clara rosa */
+            --primary-pink: #F7C0C0;
+            --primary-pink-dark: #E6A8A8;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #FFFBFB;
+            --white: #FFFFFF;
+            --border-color: #EEEEEE;
+            --success: #4CAF50;
+            --warning: #FFA000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-pink);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .nav-link:hover:not(.active) {
+            background-color: rgba(247, 192, 192, 0.2);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .profile-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        /* CORREÇÃO: Estilo para a FOTO do Google (substitui o avatar 'SO') */
+        .profile-avatar-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--primary-pink);
+        }
+        
+        /* Fallback caso não tenha foto */
+        .profile-avatar-fallback {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .profile-info h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .profile-info p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .profile-edit-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background-color: var(--primary-pink);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .profile-edit-btn i {
+            margin-right: 5px;
+        }
+
+        .profile-edit-btn:hover {
+            background-color: var(--primary-pink-dark);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-save {
+            background-color: var(--primary-pink);
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: var(--primary-pink-dark);
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo">
-                
+                <!-- CORREÇÃO DA IMAGEM: url_for para o logo -->
                 <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Karla Priscilia Confeitaria">
             </div>
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
+                        <!-- CORREÇÃO DA ROTA: Link do Perfil -->
                         <a href="{{ url_for('perfil') }}" class="nav-link active">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li class="nav-item">
+                        <!-- CORREÇÃO DA ROTA: Link do Cardápio (Home) -->
                         <a href="{{ url_for('home') }}" class="nav-link">
                             <i class="fas fa-utensils"></i>
                             <span>Cardápio</span>
                         </a>
                     </li>
                      <li class="nav-item">
+                        <!-- CORREÇÃO DA ROTA: Link do Carrinho -->
                         <a href="{{ url_for('carrinho') }}" class="nav-link">
                             <i class="fas fa-shopping-cart"></i>
                             <span>Carrinho</span>
                         </a>
                     </li>
                     <li class="nav-item">
+                        <!-- CORREÇÃO DA ROTA: Link do Logout -->
                         <a href="{{ url_for('logout') }}" class="nav-link">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Sair</span>
@@ -50,6 +281,13 @@
             </div>
 
             <div class="profile-card">
+                
+                <!-- 
+                ================================================================
+                CORREÇÃO DE LÓGICA: Avatar Dinâmico
+                ================================================================
+                Mostra a foto do Google se existir, senão mostra a primeira letra do nome.
+                -->
                 {% if user.picture %}
                     <img src="{{ user.picture }}" alt="Foto de Perfil" class="profile-avatar-img">
                 {% else %}
@@ -64,6 +302,14 @@
                 </a>
                 
                 <div class="profile-info">
+                    
+                    <!-- 
+                    ================================================================
+                    CORREÇÃO DE LÓGICA: Modo de Visualização Dinâmico
+                    ================================================================
+                    Mostra o nome e email do Google.
+                    Outros campos estão vazios (serão preenchidos na edição).
+                    -->
                     <div class="view-mode">
                         <h4>{{ user.name }}</h4>
                         <p>Email: {{ user.email }}</p>
@@ -77,6 +323,12 @@
                         </small>
                     </div>
 
+                    <!-- 
+                    ================================================================
+                    CORREÇÃO DE LÓGICA: Modo de Edição Limpo
+                    ================================================================
+                    Mantém o nome do Google, mas os outros campos estão vazios (placeholder).
+                    -->
                     <div class="edit-mode" style="display: none;">
                         <div class="form-group">
                             <label>Nome:</label>
@@ -102,8 +354,13 @@
                 </div>
             </div>
 
+            <!-- Seção de Pedidos Feitos -->
             <section style="margin-top:50px;">
                 <h2 class="section-title" style="font-size:24px;font-weight:700;margin-bottom:24px;">Pedidos Feitos</h2>
+
+                <style>
+                    .order-card{display:flex;justify-content:space-between;align-items:center;background:#fcecee;padding:18px 24px;border-radius:14px;margin-bottom:20px;text-decoration:none;color:#1a1a1a;transition:background .2s ease}.order-card:hover{background:#f7e3e6}.order-left p{margin:0}.order-id{font-weight:600}.order-date{font-size:.875rem;color:#666;margin-top:2px}.order-right{text-align:right}.order-pay,.order-status{font-size:.875rem;margin:0}.order-status{font-weight:600}.order-card i{margin-left:12px;color:#999}
+                </style>
 
                 {% if pedidos %}
                     {% for p in pedidos %}
@@ -132,7 +389,93 @@
         </main>
     </div>
 
-    <script src="{{ url_for('static', filename='Script/Script_perfil.js') }}"></script>
+    <script>
+        function toggleEditMode() {
+            const viewMode = document.querySelector('.view-mode');
+            const editMode = document.querySelector('.edit-mode');
+            const isEditing = editMode.style.display === 'block';
+            
+            viewMode.style.display = isEditing ? 'block' : 'none';
+            editMode.style.display = isEditing ? 'none' : 'block';
+            
+            const editButton = document.querySelector('.profile-edit-btn');
+            editButton.querySelector('span').textContent = isEditing ? 'Editar perfil' : 'Cancelar';
+        }
 
+        function saveProfile() {
+            const inputs = document.querySelectorAll('.edit-mode .form-control');
+            const userData = {
+                name: inputs[0].value,
+                cpf: inputs[1].value,
+                address: inputs[2].value,
+                phone: inputs[3].value
+            };
+
+            // Envia os dados para o backend
+            fetch('/perfil/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(resp => resp.json())
+            .then(json => {
+                if (json.msg) {
+                    console.log(json.msg);
+                    // Atualiza a visualização com os novos valores
+                    const viewMode = document.querySelector('.view-mode');
+                    viewMode.innerHTML = `
+                        <h4>${userData.name}</h4>
+                        <p>Email: {{ user.email }}</p>
+                        <p style="margin-top: 10px; color: var(--text-light);">
+                            CPF: ${userData.cpf || '(Não informado)'}<br>
+                            Endereço: ${userData.address || '(Não informado)'}<br>
+                            Celular: ${userData.phone || '(Não informado)'}
+                        </p>
+                        <small style="display:block; margin-top:15px; color: #999;">
+                            Clique em \"Editar perfil\" para atualizar novamente.
+                        </small>
+                    `;
+                    toggleEditMode();
+                } else {
+                    alert(json.erro || 'Falha ao atualizar.');
+                }
+            })
+            .catch(err => {
+                console.error('Erro ao salvar perfil:', err);
+                alert('Erro de comunicação com o servidor.');
+            });
+        }
+
+        // Máscara para CPF
+        document.addEventListener('DOMContentLoaded', function() {
+            const cpfInput = document.querySelector('.cpf-mask');
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para telefone
+            const phoneInput = document.querySelector('.phone-mask');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 2) {
+                        value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+                    }
+                    if (value.length > 10) {
+                        value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
 </body>
 </html>

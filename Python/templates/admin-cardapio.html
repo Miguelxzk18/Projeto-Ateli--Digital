@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardápio - Karla Priscilia Confeitaria</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- Estilos do painel de administração -->
+    <link rel="stylesheet" href="../static/Style/Style_admin.css">
+    <!-- Ícones Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -15,7 +17,7 @@
                 <h2>Karla Priscilia</h2> <p>Confeitaria</p> </div>
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="admin-dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a></li> <li><a href="admin-cardapio.html" class="active"><i class="fas fa-book-open"></i> Cardápio</a></li> <li><a href="admin-pedidos.html"><i class="fas fa-receipt"></i> Pedidos</a></li> <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li> <li><a href="login.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li> </ul>
+                    <li><a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-chart-pie"></i> Dashboard</a></li> <li><a href="{{ url_for('admin_cardapio') }}" class="active"><i class="fas fa-book-open"></i> Cardápio</a></li> <li><a href="{{ url_for('admin_pedidos') }}"><i class="fas fa-receipt"></i> Pedidos</a></li>  <li><a href="{{ url_for('logout') }}" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li> </ul>
             </nav>
         </aside>
 
@@ -26,125 +28,737 @@
             <section class="content-card">
                 <div class="table-header">
                     <h3>Todos os Produtos</h3>
-                    <a href="#" class="btn btn-primary" style="width: auto;">+ Adicionar produto</a> </div>
-                <div class="table-wrapper">
-                    <table>
+                    <a href="#" id="addProductBtn" class="btn btn-primary" style="width: auto;">+ Adicionar produto</a> </div>
+                <!-- Container estilizado reutilizado da página de pedidos -->
+                <div class="pedidos-table-container">
+                    <table class="menu-table">
                         <thead>
-                            <tr> <th>Foto</th>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Valor</th>
-                                <th>Categoria</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
-                                <td>Bolo Personalizado (1 kg)</td>
-                                <td>Monte o seu bolo personalizado conosco! Escolha cobertura, massa recheio e o tema da sua festa!</td>
-                                <td>R$ 110.00- R$150,00</td>
-                                <td>Bolos</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
-                                <td>Brigadeiros 100 (un.)</td>
-                                <td>100 unidades de brigadeiros simples..</td>
-                                <td>R$120.00</td>
-                                <td>Doces Finos e Tradicionais.</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
-                                <td>Brigadeiros Gourmet (100 un.)</td>
-                                <td>100 unidades de brigadeiros gourmet.</td>
-                                <td>R$ 150,00</td>
-                                <td>Doces Finos e Tradicionais</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                             <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
-                                <td>Brownie Recheado</td>
+            <tr>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+                        <tbody>                                <td>Brownie Recheado</td>
                                 <td>Um delicioso brownie recheado.</td>
                                 <td>R$ 7,00</td>
                                 <td>Doces Individuais</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                             <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
                                 <td>Salgados Tradicionais (100 un.)</td>
                                 <td>100 unidades de salgados simples. Coxinhas. pastéis, bolinhas de queijo e muito mais!</td>
                                 <td>R$ 110.00</td>
                                 <td>Salgados</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
+                                                                                        <td><div class="product-photo-placeholder"></div></td>
                                 <td>Salgados Especiais (100 un.)</td>
                                 <td>100 unidades de salgados especiais. Camarão empanado, croquete de carne seca e muito mais!</td>
                                 <td>R$150.00</td>
                                 <td>Salgados</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
+                                                                                        <td><div class="product-photo-placeholder"></div></td>
                                 <td>Mini Hambúrguer</td>
                                 <td>Um delicioso mini hambúrguer</td>
                                 <td>R$ 3.50</td>
                                 <td>Salgados</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div class="product-photo-placeholder"></div></td>
+                                                                                        <td><div class="product-photo-placeholder"></div></td>
                                 <td>Mini Cachorro Quente</td>
                                 <td>Um delicioso mini cachorro quente.</td>
                                 <td>R$ 3,50</td>
                                 <td>Salgados</td>
-                                <td class="table-actions">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
-                                    <a href="#"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                                                        </table>
+                </div> <!-- fim pedidos-table-container -->
             </section>
             
             <section class="management-grid">
                 <div class="content-card">
                     <h4>Categorias</h4>
                     <p>Organize seus produtos em seções.</p>
-                    <a href="#" class="btn btn-secondary">Gerenciar categorias</a> </div>
+                    <a href="#" id="manageCategoriesBtn" class="btn btn-secondary">Gerenciar categorias</a> </div>
                 <div class="content-card">
-                    <h4>Promoções</h4> <p>Crie e administre ofertas especiais e descontos.</p> <a href="#" class="btn btn-secondary">Gerenciar promoções</a> </div>
+                    <h4>Promoções</h4> <p>Crie e administre ofertas especiais e descontos.</p> <a href="#" id="managePromosBtn" class="btn btn-secondary">Gerenciar promoções</a> </div>
                 <div class="content-card">
-                    <h4>Combos</h4> <p>Junte itens para criar um combo especial para os seus clientes.</p> <a href="#" class="btn btn-secondary">Gerenciar combos</a> </div>
+                    <h4>Combos</h4> <p>Junte itens para criar um combo especial para os seus clientes.</p> <a href="#" id="manageCombosBtn" class="btn btn-secondary">Gerenciar combos</a> </div>
             </section>
 
         </main>
     </div>
 
+    <!-- Modal Novo Produto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <h3>Novo Produto</h3>
+            <form id="productForm" novalidate>
+                <label for="productPhoto">Foto</label>
+                <input type="file" id="productPhoto" accept="image/*">
+                <img id="photoPreview" alt="Pré-visualização">
+
+                <label for="productName">Nome</label>
+                <input type="text" id="productName" required>
+
+                <label for="productDesc">Descrição</label>
+                <textarea id="productDesc" rows="3" required></textarea>
+
+                <label for="productPrice">Valor (R$)</label>
+                <input type="text" id="productPrice" placeholder="ex: 12,34">
+
+                <label for="productCategory">Categoria</label>
+                <select id="productCategory" required>
+                    <option value="" disabled selected>Selecione...</option>
+                    <option value="Bolos">Bolos</option>
+                    <option value="Doces Finos">Doces Finos</option>
+                    <option value="Doces Individuais">Doces Individuais</option>
+                    <option value="Salgados">Salgados</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-secondary" style="width:auto;">Salvar</button>
+                    <button type="button" id="cancelModal" class="btn btn-secondary" style="width:auto;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Gerenciar Categorias -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h3>Gerenciar Categorias</h3>
+
+            <ul id="categoryList" class="category-list"></ul>
+
+            <div class="new-category" style="margin-top:1rem;">
+                <input type="text" id="newCategoryInput" placeholder="Nova categoria" style="width:100%;">
+            </div>
+
+            <div class="modal-actions" style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
+                <button id="addCategoryBtn" class="btn btn-secondary" style="width:auto;">Adicionar</button>
+                <button type="button" id="closeCategoryModal" class="btn btn-secondary" style="width:auto;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Gerenciar Combos -->
+    <div id="comboModal" class="modal">
+        <div class="modal-content">
+            <h3>Gerenciar Combos</h3>
+
+            <ul id="comboList" class="combo-list"></ul>
+
+            <h4 style="margin-top:1rem;">Novo Combo</h4>
+            <input type="text" id="newComboName" placeholder="Nome do combo" style="width:100%;margin-top:0.5rem;">
+            <input type="number" id="newComboPrice" placeholder="Preço do combo (R$)" step="0.01" style="width:100%;margin-top:0.5rem;">
+
+            <label for="comboPhoto" style="display:block;margin-top:0.75rem;">Foto (opcional)</label>
+            <input type="file" id="comboPhoto" accept="image/*" style="margin-top:0.25rem;">
+            <img id="comboPreview" style="display:none;width:80px;height:80px;border-radius:8px;margin-top:0.5rem;object-fit:cover;">
+
+            <div id="comboItemsContainer" style="margin-top:0.75rem;"></div>
+            <button id="addItemBtn" class="btn btn-secondary" style="width:auto;margin-top:0.5rem;">Adicionar item</button>
+
+            <div class="modal-actions" style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
+                <button id="addComboBtn" class="btn btn-secondary" style="width:auto;">Adicionar combo</button>
+                <button type="button" id="closeComboModal" class="btn btn-secondary" style="width:auto;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Gerenciar Promoções -->
+    <div id="promoModal" class="modal">
+        <div class="modal-content">
+            <h3>Gerenciar Promoções</h3>
+
+            <ul id="promoList" class="promo-list"></ul>
+
+            <h4 style="margin-top:1rem;">Nova Promoção</h4>
+            <input type="text" id="newPromoName" placeholder="Nome da promoção" style="width:100%;margin-top:0.5rem;">
+            <select id="promoProductSelect" style="width:100%;margin-top:0.5rem;"></select>
+            <input type="number" id="newPromoDiscount" placeholder="Desconto (%)" step="0.01" style="width:100%;margin-top:0.5rem;">
+
+            <div class="modal-actions" style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
+                <button id="addPromoBtn" class="btn btn-secondary" style="width:auto;">Adicionar promoção</button>
+                <button type="button" id="closePromoModal" class="btn btn-secondary" style="width:auto;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const productModal = document.getElementById('productModal');
+        // Guarda a imagem em Base64 para enviar ao backend
+        let photoData = null;
+        const addProductBtn = document.getElementById('addProductBtn');
+        const cancelModalBtn = document.getElementById('cancelModal');
+        const productForm = document.getElementById('productForm');
+        const productPhotoInput = document.getElementById('productPhoto');
+        const photoPreview = document.getElementById('photoPreview');
+        const tbody = document.querySelector('table tbody');
+        
+        async function loadProducts(){
+            tbody.innerHTML = '';
+            try{
+                const resp = await fetch('/api/produtos', {credentials:'same-origin'});
+                if(!resp.ok){
+                    console.error('loadProducts status',resp.status);
+                    alert(`Erro ao carregar produtos: ${resp.statusText}`);
+                    return;
+                }
+                const list = await resp.json();
+                list.forEach(p=>appendRow(p));
+            }catch(e){console.error('loadProducts',e);}
+        }
+
+        function appendRow(prod){
+            const tr = document.createElement('tr');
+            const imgCell = prod.foto ? `<img src="${prod.foto}" alt="foto" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">` : '<div class="product-photo-placeholder"></div>';
+            tr.innerHTML = `
+                <td>${imgCell}</td>
+                <td>${prod.nome}</td>
+                <td>${prod.descricao}</td>
+                <td>R$ ${parseFloat(prod.valor).toFixed(2).replace('.',',')}</td>
+                <td><span class="badge">${prod.categoria||''}</span></td>
+                <td class="table-actions">
+                    <a href="#"><i class="fas fa-pen"></i></a>
+                    <a href="#"><i class="fas fa-trash"></i></a>
+                </td>`;
+            tr.dataset.id = prod.id;
+            tr.dataset.price = parseFloat(prod.valor).toFixed(2);
+            tbody.appendChild(tr);
+        }
+
+        loadProducts();
+
+        /* --------- Gerenciamento de Categorias --------- */
+        let categories = Array.from(document.querySelectorAll('#productCategory option'))
+                              .slice(1) // ignora placeholder
+                              .map(opt => opt.value);
+
+        const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
+        const categoryModal = document.getElementById('categoryModal');
+        const categoryList = document.getElementById('categoryList');
+        const newCategoryInput = document.getElementById('newCategoryInput');
+        const addCategoryBtn = document.getElementById('addCategoryBtn');
+        const closeCategoryModal = document.getElementById('closeCategoryModal');
+
+        function renderCategories(){
+            // Atualiza lista visual
+            categoryList.innerHTML = '';
+            categories.forEach(cat => {
+                const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+                li.style.padding = '0.4rem 0';
+                li.textContent = cat;
+
+                const del = document.createElement('span');
+                del.textContent = '×';
+                del.style.cursor = 'pointer';
+                del.style.color = '#e74c3c';
+                del.className = 'delete-category';
+                li.appendChild(del);
+                categoryList.appendChild(li);
+            });
+
+            // Atualiza dropdown no modal de produto
+            const select = document.getElementById('productCategory');
+            select.innerHTML = '<option value="" disabled selected>Selecione...</option>';
+            categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                select.appendChild(opt);
+            });
+        }
+
+        // Abrir modal de categorias
+        manageCategoriesBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            renderCategories();
+            categoryModal.classList.add('open');
+        });
+
+        // Fechar modal
+        closeCategoryModal.addEventListener('click', () => categoryModal.classList.remove('open'));
+
+        // Adicionar nova categoria
+        addCategoryBtn.addEventListener('click', function(){
+            const val = newCategoryInput.value.trim();
+            if(!val) return;
+            if(categories.includes(val)){
+                alert('Categoria já existe.');
+                return;
+            }
+            categories.push(val);
+            newCategoryInput.value = '';
+            renderCategories();
+        });
+
+        // Excluir categoria
+        categoryList.addEventListener('click', function(e){
+            if(e.target.classList.contains('delete-category')){
+                const catName = e.target.parentElement.firstChild.textContent;
+                if(confirm(`Remover a categoria "${catName}"?`)){
+                    categories = categories.filter(c => c !== catName);
+                    renderCategories();
+                }
+            }
+        });
+
+        let editingRow = null; // guarda a linha que está sendo editada
+
+        // Abrir modal para novo produto
+        addProductBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            editingRow = null; // novo produto
+            productForm.reset();
+            photoPreview.style.display = 'none';
+            productModal.classList.add('open');
+        });
+
+        // Cancelar
+        cancelModalBtn.addEventListener('click', ()=> productModal.classList.remove('open'));
+
+        // Pré-visualização da foto
+        productPhotoInput.addEventListener('change', function(){
+            const file = this.files[0];
+            if(!file){
+                photoPreview.style.display='none';
+                photoData=null;
+                return;
+            }
+            const reader=new FileReader();
+            reader.onload=function(e){
+                photoData=e.target.result; // data:image/...;base64,
+                photoPreview.src=photoData;
+                photoPreview.style.display='block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Delegação para editar / excluir
+        tbody.addEventListener('click', function(e){
+            const trash = e.target.closest('.fa-trash');
+            const pen   = e.target.closest('.edit-product, .fa-pen');
+            if(trash){
+                e.preventDefault();
+                const row = trash.closest('tr');
+                const id  = row.dataset.id;
+                if(!id){
+                    // item sem id (linha local), remove diretamente
+                    row.remove();
+                    return;
+                }
+                if(confirm('Deseja remover este produto?')){
+                    fetch(`/api/produtos/${id}`, {method:'DELETE', credentials:'same-origin'})
+                      .then(async r=>{
+                          if(!r.ok){
+                              let msg=r.statusText;
+                              try{ const j=await r.json(); msg=j.erro||msg;}catch(e){}
+                              throw new Error(msg);
+                          }
+                          return r.json();
+                      })
+                      .then(j=>{
+                          if(j.ok) row.remove();
+                          else throw new Error(j.erro||'Falha ao excluir');
+                      })
+                      .catch(err=>alert(err.message));
+                }
+                return;
+            }
+            if(pen){
+                e.preventDefault();
+                editingRow = pen.closest('tr');
+                const cells = editingRow.cells;
+                // Preenche formulário com dados existentes
+                document.getElementById('productName').value = cells[1].textContent.trim();
+                document.getElementById('productDesc').value = cells[2].textContent.trim();
+                const priceNum = cells[3].textContent.replace(/[^0-9,]/g,'').replace(',','.');
+                document.getElementById('productPrice').value = parseFloat(priceNum);
+                document.getElementById('productCategory').value = cells[4].textContent.trim();
+                // Reinicia foto
+                productPhotoInput.value = '';
+                photoPreview.style.display = 'none';
+                productModal.classList.add('open');
+                return;
+            }
+        });
+
+        // Salvar (adicionar ou atualizar)
+        productForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            const name = document.getElementById('productName').value.trim();
+            const desc = document.getElementById('productDesc').value.trim();
+            let priceStr = document.getElementById('productPrice').value.trim();
+            priceStr = priceStr.replace(',','.');
+            const priceNum = parseFloat(priceStr);
+            const cat = document.getElementById('productCategory').value.trim();
+            if(!name || !desc || isNaN(priceNum) || !cat){
+                alert('Preencha todos os campos.');
+                return;
+            }
+            const priceFormatted = 'R$ ' + priceNum.toFixed(2).replace('.', ',');
+
+            // Se estiver editando, atualiza a linha existente e persiste no BD
+            if(editingRow){
+                const id = editingRow.dataset.id;
+                if(id){
+                    const payload = {nome:name,descricao:desc,valor:priceNum,categoria:cat};
+                    if(photoData){
+                        payload.foto = photoData;
+                    }
+                    fetch(`/api/produtos/${id}`,{
+                        method:'PUT',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify(payload)
+                    }).then(r=>r.json()).then(j=>{
+                        if(!j.ok){ alert(j.erro||'Falha ao atualizar'); }
+                    });
+                }
+                const cells = editingRow.cells;
+                if(photoPreview.style.display === 'block'){
+                    cells[0].innerHTML = `<img src="${photoPreview.src}" alt="foto" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">`;
+                }
+                cells[1].textContent = name;
+                cells[2].textContent = desc;
+                cells[3].textContent = priceFormatted;
+                cells[4].textContent = cat;
+                // atualiza preço original caso tenha sido alterado
+                editingRow.dataset.price = priceNum.toFixed(2);
+            }else{
+                // Envia ao backend e adiciona somente após confirmação
+                const payload = {nome: name, descricao: desc, valor: priceNum, categoria: cat};
+                if(photoData){
+                    payload.foto = photoData;
+                }
+                fetch('/api/produtos/add', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                })
+                .then(async r => {
+                    if(!r.ok){
+                        let msg='erro';
+                        try{ const j=await r.json(); msg=j.erro||JSON.stringify(j);}catch(e){ msg=r.statusText; }
+                        throw new Error(msg);
+                    }
+                    return r.json();
+                })
+                .then(json => {
+                    if(!json.ok){
+                        alert(json.erro || 'Falha ao salvar');
+                        return;
+                    }
+                    const tr = document.createElement('tr');
+                    const imgCell = payload.foto ? `<img src="${payload.foto}" alt="foto" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">` : '<div class="product-photo-placeholder"></div>';
+                    tr.innerHTML = `
+                        <td>${imgCell}</td>
+                        <td>${name}</td>
+                        <td>${desc}</td>
+                        <td>${priceFormatted}</td>
+                        <td>${cat}</td>
+                        <td class="table-actions">
+                            <a href="#"><i class="fas fa-pen"></i></a>
+                            <a href="#"><i class="fas fa-trash"></i></a>
+                        </td>`;
+                    tr.dataset.id = json.id;
+                    tr.dataset.price = priceNum.toFixed(2);
+                    tbody.appendChild(tr);
+                    updatePrices();
+                })
+                .catch(err => {
+                    console.error('save product', err);
+                    alert(err.message||'Erro de rede');
+                });
+            }
+
+            // Limpa e fecha modal
+            this.reset();
+            photoPreview.style.display = 'none';
+            productModal.classList.remove('open');
+            editingRow = null;
+        });
+        /* --------- Gerenciamento de Combos --------- */
+        const manageCombosBtn = document.getElementById('manageCombosBtn');
+        const comboModal = document.getElementById('comboModal');
+        const comboList = document.getElementById('comboList');
+        const newComboNameInput = document.getElementById('newComboName');
+        const newComboPriceInput = document.getElementById('newComboPrice');
+        const comboItemsContainer = document.getElementById('comboItemsContainer');
+        const addItemBtn = document.getElementById('addItemBtn');
+        const comboPhotoInput = document.getElementById('comboPhoto');
+        const comboPreview = document.getElementById('comboPreview');
+        let comboFotoData=null;
+        comboPhotoInput.addEventListener('change', function(){
+            const f=this.files[0]; if(!f){comboPreview.style.display='none';comboFotoData=null;return;}
+            const r=new FileReader(); r.onload=e=>{comboFotoData=e.target.result; comboPreview.src=comboFotoData; comboPreview.style.display='block';}; r.readAsDataURL(f);
+        });
+        const addComboBtn = document.getElementById('addComboBtn');
+        const closeComboModalBtn = document.getElementById('closeComboModal');
+
+        let combos = [];
+
+        // Obtém nomes de produtos existentes para popular os dropdowns de itens do combo
+        function getProductNames(){
+            return Array.from(document.querySelectorAll('table tbody tr td:nth-child(2)'))
+                        .map(td => td.textContent.trim());
+        }
+
+        function addItemRow(name = '', qty = ''){
+            const row = document.createElement('div');
+            row.className = 'combo-item-row';
+            row.style.display = 'flex';
+            row.style.gap = '0.5rem';
+            row.style.marginTop = '0.5rem';
+
+            // Dropdown com produtos cadastrados
+            const select = document.createElement('select');
+            select.style.flex = '1';
+            const productNames = getProductNames();
+            productNames.forEach(prod => {
+                const opt = document.createElement('option');
+                opt.value = prod;
+                opt.textContent = prod;
+                select.appendChild(opt);
+            });
+            if(name && productNames.includes(name)){
+                select.value = name;
+            }
+
+            const qtyInput = document.createElement('input');
+            qtyInput.type = 'number';
+            qtyInput.min = '1';
+            qtyInput.placeholder = 'Qtd';
+            qtyInput.value = qty;
+            qtyInput.style.width = '70px';
+
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = '×';
+            removeBtn.type = 'button';
+            removeBtn.style.cursor = 'pointer';
+            removeBtn.style.background = 'none';
+            removeBtn.style.border = 'none';
+            removeBtn.style.color = '#e74c3c';
+            removeBtn.style.fontSize = '1rem';
+
+            removeBtn.addEventListener('click', ()=> row.remove());
+
+            row.appendChild(select);
+            row.appendChild(qtyInput);
+            row.appendChild(removeBtn);
+            comboItemsContainer.appendChild(row);
+        }
+
+        function clearComboForm(){
+            newComboNameInput.value = '';
+            newComboPriceInput.value = '';
+            comboItemsContainer.innerHTML = '';
+        }
+
+        function renderCombos(){
+            comboList.innerHTML = '';
+            combos.forEach((combo, idx) => {
+                const li = document.createElement('li');
+                li.style.padding = '0.4rem 0';
+
+                const header = document.createElement('div');
+                header.style.display = 'flex';
+                header.style.justifyContent = 'space-between';
+                header.style.alignItems = 'center';
+
+                const titleSpan = document.createElement('span');
+                titleSpan.innerHTML = `<strong>${combo.name}</strong> - R$ ${combo.price.toFixed(2).replace('.', ',')}`;
+                header.appendChild(titleSpan);
+
+                const del = document.createElement('span');
+                del.textContent = '×';
+                del.style.cursor = 'pointer';
+                del.style.color = '#e74c3c';
+                del.addEventListener('click', () => {
+                    if(confirm(`Remover o combo "${combo.name}"?`)){
+                        combos.splice(idx,1);
+                        renderCombos();
+                    }
+                });
+                header.appendChild(del);
+                li.appendChild(header);
+
+                if(combo.items.length){
+                    const itemsUl = document.createElement('ul');
+                    itemsUl.style.marginTop = '0.25rem';
+                    itemsUl.style.marginLeft = '1rem';
+                    combo.items.forEach(it=>{
+                        const itemLi = document.createElement('li');
+                        itemLi.textContent = `${it.name} x ${it.qty}`;
+                        itemsUl.appendChild(itemLi);
+                    });
+                    li.appendChild(itemsUl);
+                }
+                comboList.appendChild(li);
+            });
+        }
+
+        // Abrir modal de combos
+        manageCombosBtn.addEventListener('click', (e)=>{
+            e.preventDefault();
+            renderCombos();
+            clearComboForm();
+            comboModal.classList.add('open');
+        });
+
+        // Fechar modal de combos
+        closeComboModalBtn.addEventListener('click', ()=> comboModal.classList.remove('open'));
+
+        // Adicionar item na criação do combo
+        addItemBtn.addEventListener('click', ()=> addItemRow());
+
+        // Adicionar combo
+        addComboBtn.addEventListener('click', async ()=>{
+            const name = newComboNameInput.value.trim();
+            const priceStr = newComboPriceInput.value.trim();
+            if(!name || !priceStr){
+                alert('Informe nome e preço do combo.');
+                return;
+            }
+            const price = parseFloat(priceStr);
+            if(isNaN(price)){
+                alert('Preço inválido.');
+                return;
+            }
+            const items = Array.from(comboItemsContainer.querySelectorAll('.combo-item-row')).map(row=>{
+                const select = row.querySelector('select');
+                const qtyInput = row.querySelector('input[type="number"]');
+                return {name: select.value, qty: qtyInput.value.trim() || '1'};
+            }).filter(it=> it.name);
+
+            try{
+                const resp = await fetch('/api/combos/add', {
+                    method:'POST',
+                    credentials:'same-origin',
+                    headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify({name, price, items, foto: comboFotoData})
+                });
+                const j = await resp.json();
+                if(!resp.ok || !j.ok){
+                    alert(j.erro || 'Falha ao salvar combo');
+                    return;
+                }
+                combos.push({name, price, items});
+                renderCombos();
+                clearComboForm();
+                comboFotoData=null; comboPreview.style.display='none';
+                loadProducts(); // recarrega lista para incluir combo
+            }catch(e){
+                console.error('save combo', e);
+                alert('Erro de rede');
+            }
+        });
+
+        /* --------- Gerenciamento de Promoções --------- */
+        const managePromosBtn = document.getElementById('managePromosBtn');
+        const promoModal = document.getElementById('promoModal');
+        const promoList = document.getElementById('promoList');
+        const newPromoNameInput = document.getElementById('newPromoName');
+        const newPromoDiscountInput = document.getElementById('newPromoDiscount');
+        const promoProductSelect = document.getElementById('promoProductSelect');
+        const addPromoBtn = document.getElementById('addPromoBtn');
+        const closePromoModalBtn = document.getElementById('closePromoModal');
+
+        let promotions = [];
+
+        // Atualiza preços na tabela com base nas promoções ativas
+        function updatePrices(){
+            tbody.querySelectorAll('tr').forEach(row=>{
+                const productName = row.cells[1].textContent.trim();
+                const original = parseFloat(row.dataset.price || '0');
+                if(!original) return; // segurança
+                const promo = promotions.find(p=>p.product === productName);
+                const finalValue = promo ? original * (1 - promo.discount/100) : original;
+                row.cells[3].textContent = 'R$ ' + finalValue.toFixed(2).replace('.', ',');
+            });
+        }
+
+        function renderPromos(){
+            promoList.innerHTML = '';
+            promotions.forEach((promo, idx)=>{
+                const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+                li.style.padding = '0.4rem 0';
+
+                const span = document.createElement('span');
+                span.innerHTML = `<strong>${promo.name}</strong> (${promo.product}) - ${promo.discount}%`;
+                li.appendChild(span);
+
+                const del = document.createElement('span');
+                del.textContent = '×';
+                del.style.cursor = 'pointer';
+                del.style.color = '#e74c3c';
+                del.addEventListener('click', ()=>{
+                    if(confirm(`Remover a promoção "${promo.name}"?`)){
+                        promotions.splice(idx,1);
+                        updatePrices();
+                        renderPromos();
+                    }
+                });
+                li.appendChild(del);
+                promoList.appendChild(li);
+            });
+        }
+
+        // Abrir modal promo
+        managePromosBtn.addEventListener('click', (e)=>{
+            e.preventDefault();
+            renderPromos();
+            newPromoNameInput.value = '';
+            newPromoDiscountInput.value = '';
+            // Popular dropdown de produtos
+            promoProductSelect.innerHTML = '<option value="" disabled selected>Selecione um produto...</option>';
+            getProductNames().forEach(prod=>{
+                const opt = document.createElement('option');
+                opt.value = prod;
+                opt.textContent = prod;
+                promoProductSelect.appendChild(opt);
+            });
+            promoModal.classList.add('open');
+        });
+
+        // Fechar modal promo
+        closePromoModalBtn.addEventListener('click', ()=> promoModal.classList.remove('open'));
+
+        // Adicionar promo
+        addPromoBtn.addEventListener('click', ()=>{
+            const name = newPromoNameInput.value.trim();
+            const discStr = newPromoDiscountInput.value.trim();
+            const discount = parseFloat(discStr);
+            const product = promoProductSelect.value;
+            if(!product){
+                alert('Selecione um produto.');
+                return;
+            }
+            if(!name || isNaN(discount) || discount <= 0 || discount > 100){
+                alert('Informe nome e desconto entre 1 e 100%.');
+                return;
+            }
+            promotions.push({name, discount, product});
+            // persiste valor promocional no BD
+            const row = Array.from(tbody.querySelectorAll('tr')).find(r=> r.cells[1].textContent.trim()===product);
+            if(row && row.dataset.id){
+                const original = parseFloat(row.dataset.price||'0');
+                const promoPrice = original * (1 - discount/100);
+                fetch(`/api/produtos/${row.dataset.id}`,{
+                    method:'PUT',
+                    headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify({valor: promoPrice})
+                }).then(()=>{ row.dataset.price = original.toFixed(2); });
+            }
+            updatePrices();
+            renderPromos();
+            newPromoNameInput.value = '';
+            newPromoDiscountInput.value = '';
+            promoProductSelect.selectedIndex = 0;
+        });
+
+    </script>
 </body>
 </html>

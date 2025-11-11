@@ -1,6 +1,9 @@
 import mysql.connector
 from mysql.connector import errorcode
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 DB_CONFIG = {
     'host': os.getenv("DB_HOST", '127.0.0.1'),
@@ -13,14 +16,13 @@ DB_CONFIG = {
 def testar_conexao():
     print("Tentando conectar ao MySQL...")
     try:
-
         conn = mysql.connector.connect(**DB_CONFIG)
         
         if conn.is_connected():
             print("\n-------------------------------------------")
             print(">>> SUCESSO! Conexão estabelecida.")
             print("-------------------------------------------")
-            
+
             cursor = conn.cursor()
             cursor.execute("SHOW TABLES;")
             tables = cursor.fetchall()
@@ -37,14 +39,15 @@ def testar_conexao():
         print("-------------------------------------------")
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Erro: Usuário ou senha incorretos.")
+            print("Verifique seu arquivo .env (DB_USER e DB_PASS).")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             print(f"Erro: O banco de dados '{DB_CONFIG['database']}' não existe.")
+            print("Verifique seu arquivo .env (DB_NAME).")
         elif err.errno == errorcode.CR_CONN_HOST_ERROR:
-             print(f"Erro: Não foi possível conectar ao servidor em '{DB_CONFIG['host']}'.")
-             print("Verifique se o servidor MySQL está rodando.")
+            print(f"Erro: Não foi possível conectar ao servidor em '{DB_CONFIG['host']}'.")
+            print("Verifique seu arquivo .env (DB_HOST) e se o servidor MySQL está rodando.")
         else:
             print(f"Ocorreu um erro inesperado: {err}")
-
 
 if __name__ == "__main__":
     testar_conexao()

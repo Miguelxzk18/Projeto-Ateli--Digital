@@ -17,7 +17,7 @@ load_dotenv()
 
 CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI") 
+REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI")
 PORT = os.environ.get("PORT")
 
 AUTH_BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -29,7 +29,6 @@ SCOPES = [
     "https://www.googleapis.com/auth/userinfo.profile",
     "openid"
 ]
-
 app = Flask(__name__)
 
 def _init_db():
@@ -39,6 +38,7 @@ def _init_db():
             ensure_pedido_schema(conn)
         finally:
             conn.close()
+
 app.secret_key = os.environ.get("SECRET_KEY", "super-secret-key-change-me")
 
 DB_CONFIG = {
@@ -48,7 +48,6 @@ DB_CONFIG = {
     'password': os.getenv("DB_PASS"),
     'database': os.getenv("DB_NAME", 'mydb')
 }
-
 def get_db_connection():
     """Tenta conectar ao banco de dados e retorna a conexão."""
     try:
@@ -65,6 +64,7 @@ def login_required(f):
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
+
 ADMIN_EMAILS = {
     'atelierdigital@gmail.com',
 }
@@ -79,7 +79,6 @@ def admin_required(f):
             return abort(403)
         return f(*args, **kwargs)
     return wrapper
-
 def get_google_auth():
     if CLIENT_ID is None or CLIENT_SECRET is None:
         raise Exception("As variáveis de ambiente GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET devem ser definidas.")
@@ -94,8 +93,8 @@ def get_google_auth():
 def index():
     """ROTA PRINCIPAL (Login): Se logado, vai para a home. Se não, mostra o login."""
     if 'user_info' in session:
-        return redirect(url_for('home')) 
-    return render_template('login.html') 
+        return redirect(url_for('home'))
+    return render_template('login.html')
 
 @app.route("/login")
 def login():
@@ -136,7 +135,7 @@ def callback():
 @app.route("/logout")
 def logout():
     """Termina a sessão do usuário."""
-    session.clear() 
+    session.clear()
     return redirect(url_for("index"))
 
 @app.route("/cadastro", methods=["GET"])
@@ -175,7 +174,7 @@ def cadastro_traditional():
         ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
     )
     cursor.execute(create_q)
-
+    
     query = "INSERT INTO cliente (nome, nome_completo, email, senha_hash) VALUES (%s, %s, %s, %s)"
     
     try:
@@ -192,7 +191,6 @@ def cadastro_traditional():
 
     return redirect(url_for('index'))
 
-
 @app.route("/login-traditional", methods=["POST"])
 def login_traditional():
     """Processa o formulário de login tradicional (email/senha)."""
@@ -208,6 +206,7 @@ def login_traditional():
         cursor.execute("ALTER TABLE cliente ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY")
     except mysql.connector.Error:
         pass
+    
     query = "SELECT * FROM cliente WHERE email = %s"
     
     try:
@@ -281,17 +280,17 @@ def ensure_produto_schema(conn):
             'categoria': 'VARCHAR(120)',
             'foto': 'MEDIUMTEXT'
         }
-    
+
         cur.execute("SHOW KEYS FROM produtos WHERE Key_name='PRIMARY'")
         pk_row = cur.fetchone()
         pk_field = pk_row[4] if pk_row else None
 
-    
         cur.execute("SHOW COLUMNS FROM produtos WHERE Extra LIKE '%auto_increment%'")
         auto_row = cur.fetchone()
 
         cur.execute("SHOW COLUMNS FROM produtos LIKE 'id_produtos'")
         legacy_row = cur.fetchone()
+
         if auto_row is None:
             if legacy_row:
                 extra = legacy_row[5]
@@ -310,7 +309,6 @@ def ensure_produto_schema(conn):
                 cur.execute("SHOW COLUMNS FROM produtos LIKE 'id'")
                 if cur.fetchone() is None:
                     cur.execute("ALTER TABLE produtos ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY FIRST")
-
         cur.execute("SHOW KEYS FROM produtos WHERE Key_name='PRIMARY'")
         if cur.fetchone() is None:
             cur.execute("SHOW COLUMNS FROM produtos WHERE Extra LIKE '%auto_increment%'")
@@ -390,6 +388,7 @@ def api_produtos():
     cur = conn.cursor(dictionary=True)
     cur.execute('SELECT * FROM produtos')
     rows = cur.fetchall()
+
     for r in rows:
         if 'id' not in r:
             for pk_alt in ('id_produtos','id_produto','produto_id'):
@@ -413,6 +412,7 @@ def api_produto_add():
     data = request.get_json() or {}
     nome = (data.get('nome') or '').strip()
     desc = (data.get('descricao') or '').strip()
+
     raw_val = str(data.get('valor', '')).replace(',', '.').strip()
     try:
         valor = float(raw_val)
@@ -438,7 +438,7 @@ def api_produto_update(pid):
         return jsonify({'erro':'payload vazio'}),400
     conn=get_db_connection(); ensure_produto_schema(conn)
     cur=conn.cursor(); set_clause=', '.join(f"{k}=%s" for k in cols)
-    # Descobre qual coluna é o PRIMARY KEY
+
     cur.execute("SHOW KEYS FROM produtos WHERE Key_name='PRIMARY'")
     pk_row = cur.fetchone()
     pk_col = pk_row[4] if pk_row else 'id'
@@ -450,11 +450,11 @@ def api_produto_update(pid):
 @admin_required
 def api_produto_delete(pid):
     conn=get_db_connection(); ensure_produto_schema(conn)
-    cur=conn.cursor();
+    cur=conn.cursor()
     cur.execute("SHOW KEYS FROM produtos WHERE Key_name='PRIMARY'")
     pk_row = cur.fetchone()
     pk_col = pk_row[4] if pk_row else 'id'
-    cur.execute(f'DELETE FROM produtos WHERE {pk_col}=%s',(pid,));
+    cur.execute(f'DELETE FROM produtos WHERE {pk_col}=%s',(pid,))
     conn.commit(); cur.close(); conn.close(); return jsonify({'ok':True})
 
 def ensure_pedido_schema(conn):
@@ -475,7 +475,7 @@ def ensure_pedido_schema(conn):
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
             """
         )
-
+        
         cur.execute("SHOW COLUMNS FROM pedido LIKE 'valor_total'")
         has_vtotal = cur.fetchone() is not None
         cur.execute("SHOW COLUMNS FROM pedido LIKE 'total'")
@@ -514,6 +514,7 @@ def ensure_pedido_schema(conn):
 def perfil():
     """Exibe a página de perfil do usuário, sempre buscando dados completos no BD."""
     user = session['user_info']
+    
     email = user.get('email')
     if email:
         conn = get_db_connection()
@@ -557,6 +558,7 @@ def perfil():
             finally:
                 cur.close(); conn.close()
     return render_template('perfil.html', user=user, pedidos=pedidos)
+
 @app.route("/perfil/update", methods=["POST"])
 @login_required
 def perfil_update():
@@ -655,6 +657,7 @@ def cart_update():
             break
     session['cart'] = cart
     return jsonify({"count": sum(i['qty'] for i in cart)})
+
 @app.route("/cart/remove", methods=["POST"])
 @login_required
 def cart_remove():
@@ -675,6 +678,7 @@ def carrinho():
     """Exibe o carrinho de compras."""
     user = session['user_info']
     cart = session.get('cart', [])
+
     if cart:
         names = tuple({it['name'] for it in cart})
         conn = get_db_connection()
@@ -711,13 +715,16 @@ def pagamento_confirm():
     }
     metodo = metodo_map.get(metodo_slug, metodo_slug.capitalize() if metodo_slug else None)
     entrega = (data.get('delivery') or 'Retirada').strip()
+
     if entrega.lower() != 'retirada' and not user.get('endereco'):
         return jsonify({'erro': 'sem_endereco'}), 400
     cart   = session.get('cart', [])
+
     try:
         total = float(str(data.get('total', 0)).replace(',', '.'))
     except ValueError:
         total = 0.0
+
     if (not total) and cart:
         total = sum(float(it['price']) * int(it['qty']) for it in cart)
     user   = session['user_info']
@@ -725,8 +732,10 @@ def pagamento_confirm():
     conn = get_db_connection()
     if conn is None:
         return jsonify({'erro':'db fail'}), 500
+
     ensure_pedido_schema(conn)
     cur = conn.cursor()
+
     cur.execute("""
         CREATE TABLE IF NOT EXISTS pedido (
           id INT AUTO_INCREMENT PRIMARY KEY,
@@ -739,8 +748,10 @@ def pagamento_confirm():
           criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     """)
+
     print('[DEBUG pedido]', {'user':user.get('email'), 'total': total, 'metodo': metodo, 'items': cart}, flush=True)
     cur_meta = conn.cursor()
+
     cur_meta.execute("SHOW COLUMNS FROM pedido LIKE 'valor_total'")
     has_vtotal = cur_meta.fetchone() is not None
     cur_meta.execute("SHOW COLUMNS FROM pedido LIKE 'forma_pagamento'")
@@ -755,6 +766,7 @@ def pagamento_confirm():
     order_id = cur.lastrowid
     conn.commit()
     cur.close(); conn.close()
+
     session.pop('cart', None)
     return jsonify({'ok': True, 'id': order_id})
 
@@ -769,12 +781,14 @@ def admin_dashboard():
         cur = conn.cursor(dictionary=True)
         import datetime, decimal
         first_day = datetime.date.today().replace(day=1)
+
         cur.execute("SHOW COLUMNS FROM pedido LIKE 'valor_total'")
         has_vtotal = cur.fetchone() is not None
         col_total = 'valor_total' if has_vtotal else 'total'
         cur.execute(f"SELECT COALESCE({col_total},0) AS t FROM pedido WHERE criado_em >= %s", (first_day,))
         rows = cur.fetchall(); vendas_mes=len(rows)
         faturamento_mes = 7500.00
+
         cur2 = conn.cursor()
         cur2.execute(f"SELECT COALESCE(SUM({col_total}),0) FROM pedido")
         row = cur2.fetchone(); renda_total = float(row[0]) if row and row[0] is not None else 0
@@ -783,6 +797,7 @@ def admin_dashboard():
         notificacoes = cur_not.fetchall(); cur_not.close()
         cur2.close(); cur.close(); conn.close()
     return render_template('admin-dashboard.html', user=user, vendas_mes=vendas_mes, faturamento_mes=faturamento_mes, renda_atual=renda_total, notificacoes=notificacoes)
+
 @app.route("/admin/cardapio")
 @login_required
 @admin_required
@@ -802,6 +817,7 @@ def admin_cardapio():
         finally:
             cursor.close()
             conn.close()
+            
     return render_template('admin-cardapio.html', user=user, produtos=produtos)
 
 @app.route("/admin/pedidos")
@@ -814,11 +830,13 @@ def admin_pedidos():
     conn=get_db_connection()
     if conn:
         ensure_pedido_schema(conn)
+
         cur_cols = conn.cursor()
         cur_cols.execute("SHOW COLUMNS FROM pedido")
         cols = [row[0] for row in cur_cols.fetchall()]
         cur_cols.close()
         id_col = 'id_pedido' if 'id_pedido' in cols else 'id'
+
         cur = conn.cursor(dictionary=True)
         query = f"""
             SELECT p.{id_col} AS id,
@@ -845,6 +863,7 @@ def admin_pedidos():
             except Exception:
                 itens=[]
             r['itens_str']=', '.join(f"{it['qty']}x {it['name']}" for it in itens)[:60]
+
             if not r['total']:
                 r['total']=sum(it['price']*it['qty'] for it in itens)
             r['cliente']=r.get('cliente') or r['user_email']
@@ -864,6 +883,7 @@ def api_combo_add():
         return jsonify({'erro':'preço inválido'}),400
     if not nome or not itens:
         return jsonify({'erro':'nome/itens vazios'}),400
+
     desc = '\n'.join(f"{it['qty']}x {it['name']}" for it in itens)
     foto = data.get('foto')
     conn = get_db_connection(); ensure_produto_schema(conn)
@@ -890,7 +910,7 @@ def api_pedido_update_status(pid):
         has_id_pedido = cur.fetchone() is not None
         id_col = 'id_pedido' if has_id_pedido else 'id'
         cur.execute(f"UPDATE pedido SET status=%s WHERE {id_col}=%s", (status, pid))
-        conn.commit()
+        conn.commit();
         return jsonify({'ok':True})
     finally:
         cur.close(); conn.close()
@@ -920,6 +940,7 @@ def api_pedido_update_status(pid):
     """
     cur.execute(query)
     rows = cur.fetchall(); cur.close(); conn.close()
+
     serial = []
     for r in rows:
         try:
@@ -928,6 +949,7 @@ def api_pedido_update_status(pid):
             itens = []
         r['itens_list'] = itens
         r['itens_str']  = ', '.join(f"{it['qty']}x {it['name']}" for it in itens)
+
         if (not r.get('total')) and itens:
             try:
                 r['total'] = sum(float(it.get('price',0))*int(it.get('qty',1)) for it in itens)
@@ -939,6 +961,7 @@ def api_pedido_update_status(pid):
             r['criado_em'] = r['criado_em'].isoformat()
         serial.append(r)
     return jsonify(serial)
+
 if __name__ == "__main__":
     if PORT is None:
         print("A variável PORT não está definida no .env. Usando a porta 8000 por padrão.")

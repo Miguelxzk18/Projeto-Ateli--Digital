@@ -10,6 +10,7 @@
     <div class="container">
         <div class="left-panel">
             <div class="logo-container">
+                <!-- CORREÇÃO DA IMAGEM: url_for para o logo -->
                 <img src="{{ url_for('static', filename='Imagens/logo/fullwhitelogo.png') }}" alt="Karla Priscilia Confeitaria" class="logo-image">
             </div>
             
@@ -82,12 +83,14 @@
                     <span>ou</span>
                 </div>
                 
+                <!-- CORREÇÃO DO BOTÃO GOOGLE: <a> apontando para a rota /login -->
                 <a href="{{ url_for('login') }}" class="btn btn-google">
                     <img src="https://pngimg.com/uploads/google/google_PNG19630.png" alt="Google" class="google-icon">
                     Criar conta com o Google
                 </a>
                 
                 <div class="login-link">
+                    <!-- CORREÇÃO DO LINK DE LOGIN: Apontando para a rota 'index' (login.html) -->
                     Já possui uma conta? <a href="{{ url_for('index') }}">Entre aqui</a>
                 </div>
             </form>
@@ -98,8 +101,33 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='Script/Script_cadastro.js') }}"></script>
+    <script>
+        // CORREÇÃO DO SCRIPT: Removido 'alert()' e adicionado 'console.warn'
+        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault(); // Impede o envio do formulário
+                console.warn('As senhas não coincidem. Por favor, verifique novamente.');
+                // Você pode adicionar uma mensagem de erro visual aqui
+                return;
+            }
+            
+            if (password.length < 8) {
+                e.preventDefault(); // Impede o envio do formulário
+                console.warn('A senha deve ter pelo menos 8 caracteres.');
+                // Você pode adicionar uma mensagem de erro visual aqui
+                return;
+            }
+            
+            // Se as senhas baterem e tiverem 8+ caracteres, o formulário será enviado
+            // para a rota /cadastro-traditional (definida no app.py)
+            console.log('Enviando dados de cadastro...');
+        });
+    </script>
 
+    <!-- Link para os ícones do Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </body>
 </html>

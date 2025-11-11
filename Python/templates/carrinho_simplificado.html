@@ -11,25 +11,33 @@
 <body>
    <div class="app-container">
         <header class="client-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
+            <!-- Logo e redes sociais -->
             <div style="display: flex; align-items: center; gap: 15px;">
+                <!-- CORREÇÃO DA IMAGEM: url_for para o logo -->
                 <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
                 <div style="display: flex; gap: 8px;">
                     <a href="#" style="display: flex; align-items: center;">
+                        <!-- CORREÇÃO DA IMAGEM: url_for para whatsapp.png -->
                         <img src="{{ url_for('static', filename='Imagens/whatsapp.png') }}" alt="WhatsApp" style="height: 25px;">
                     </a>
                     <a href="https://www.instagram.com/confeitariakarlapriscilia/" style="display: flex; align-items: center;">
+                        <!-- CORREÇÃO DA IMAGEM: url_for para instagram.png -->
                         <img src="{{ url_for('static', filename='Imagens/instagram.png') }}" alt="Instagram" style="height: 25px;">
                     </a>
                 </div>
             </div>
             
+            <!-- Ícones de perfil e carrinho -->
             <div class="header-icons" style="display: flex; align-items: center; gap: 10px;">
+                <!-- CORREÇÃO DA ROTA: "Voltar" aponta para 'home' (index_page.html) -->
                 <a href="{{ url_for('home') }}" style="display: flex; align-items: center; text-decoration: none; color: #333; background-color: #f78f9a27; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 8px 15px; font-size: 14px; font-weight: 500; transition: all 0.2s;">
                     <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Voltar
                 </a>
+                <!-- CORREÇÃO DA ROTA: "Perfil" aponta para 'perfil' -->
                 <a href="{{ url_for('perfil') }}" class="profile-icon" style="color: #333; padding: 8px;">
                     <i class="fas fa-user"></i>
                 </a>
+                <!-- CORREÇÃO DA ROTA: "Carrinho" aponta para 'carrinho' (própria página) -->
                 <a href="{{ url_for('carrinho') }}" class="cart-icon" style="position: relative; color: #333; padding: 8px;">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" style="position: absolute; top: 0; right: 0; background-color: #f78f9a; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
@@ -71,12 +79,12 @@
             <div class="delivery-options">
                 <h3 class="section-title">Opções de recebimento</h3>
                 <label class="delivery-option">
-                    <input type="radio" name="delivery-option" checked>
+                    <input type="radio" name="delivery-option" value="Entrega" checked>
                     <span class="radio-custom"></span>
                     <span>Entrega</span>
                 </label>
                 <label class="delivery-option">
-                    <input type="radio" name="delivery-option">
+                    <input type="radio" name="delivery-option" value="Retirada">
                     <span class="radio-custom"></span>
                     <span>Retirada</span>
                 </label>
@@ -131,11 +139,116 @@
                 <span>R$ {{ '%.2f'|format(ns.subtotal) }}</span>
             </div>
             
-            <a href="{{ url_for('pagamento') }}" class="btn-checkout">Ir para Pagamento</a>
+            <!-- Botão checkout controlado por JS -->
+            <button id="checkoutBtn" class="btn-checkout">Ir para Pagamento</button>
         </aside>
     </div>
     
-    <script src="{{ url_for('static', filename='Script/Script_carrinho.js') }}"></script>
-    
+    <script>
+        // Remove item functionality
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.cart-item').remove();
+                updateOrderSummary();
+            });
+        });
+        
+        // Update order summary
+        function updateOrderSummary() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const totalText = item.querySelector('.item-total').textContent;
+                const totalValue = parseFloat(totalText.replace('R$', '').replace(',', '.'));
+                subtotal += totalValue;
+            });
+            
+            document.querySelector('.summary-row:first-child span:last-child').textContent = 
+                `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+                
+            document.querySelector('.summary-row.total span:last-child').textContent = 
+                `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+        }
+        
+        // Set minimum date to today e atualiza totais
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('delivery-date').min = today;
+        // Executa imediatamente pois este script já está após todo o HTML
+        updateOrderSummary();
+
+        // Delivery option toggle + visibilidade de seções
+        const deliveryRadios = document.querySelectorAll('input[name="delivery-option"]');
+        deliveryRadios.forEach(radio => {
+            radio.addEventListener('change', updateDeliveryVisibility);
+        });
+
+        function updateDeliveryVisibility() {
+            // Primeiro input = Entrega, segundo = Retirada
+            const entregaChecked = deliveryRadios[0].checked;
+            const addressSection  = document.querySelector('.address-section');
+            const scheduleSection = document.querySelector('.schedule-section');
+            const deliveryFeeRow  = document.querySelector('.delivery-fee');
+            if (entregaChecked) {
+                addressSection.style.display  = '';
+                scheduleSection.style.display = '';
+            } else {
+                addressSection.style.display  = 'none';
+                scheduleSection.style.display = 'none';
+            }
+            // Taxa de entrega permanece visível sempre
+            deliveryFeeRow.style.display = '';
+        }
+
+        // Executa na carga inicial
+        updateDeliveryVisibility();
+        // --- Checkout ---
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        checkoutBtn.addEventListener('click', ()=>{
+            const selected = document.querySelector('input[name="delivery-option"]:checked').value;
+            if(selected==='Entrega' && '{{ user.endereco|default('') }}'.trim()===''){
+                alert('Adicione um endereço antes de prosseguir com entrega.');
+                window.location.href = '{{ url_for('perfil') }}';
+                return;
+            }
+            // encaminha para pagamento
+            window.location.href = '{{ url_for('pagamento') }}';
+        });
+
+    //--- ações de quantidade e remoção ---
+const badge = parent.document ? parent.document.getElementById('cart-count') : null;
+function recalcTotals(){
+  let subtotal=0;
+  document.querySelectorAll('.cart-item').forEach(it=>{
+     const price=parseFloat(it.querySelector('.item-price').dataset.price);
+     const qty  =parseInt(it.querySelector('.quantity').textContent);
+     const total=price*qty;
+     it.querySelector('.item-total').textContent=`R$ ${total.toFixed(2)}`;
+     subtotal+=total;
+  });
+  document.querySelectorAll('.summary-row.total span:last-child')[0].textContent=`R$ ${subtotal.toFixed(2)}`;
+}
+
+document.addEventListener('click',e=>{
+  const dec=e.target.closest('.btn-dec');
+  const inc=e.target.closest('.btn-inc');
+  const rem=e.target.closest('.remove-item');
+  if(!dec&&!inc&&!rem) return;
+  const itemEl = e.target.closest('.cart-item');
+  const name = itemEl.dataset.name;
+  let actionPromise;
+  if(rem){ actionPromise = fetch('/cart/remove',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})}); }
+  else{ const delta = inc?1:-1; actionPromise = fetch('/cart/update',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,delta})}); }
+  actionPromise.then(r=>r.json()).then(j=>{
+      if(j.count!==undefined && badge){ badge.textContent=j.count; }
+      if(rem){ itemEl.remove(); }
+      else{
+         const qEl=itemEl.querySelector('.quantity');
+         let q=parseInt(qEl.textContent)+ (inc?1:-1);
+         if(q<=0){ itemEl.remove(); } else { qEl.textContent=q; }
+      }
+      recalcTotals();
+  });
+});
+</script>
 </body>
 </html>

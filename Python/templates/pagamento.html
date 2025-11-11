@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento - Karla Priscilia Confeitaria</title>
+    <!-- <link rel="stylesheet" href="style.css"> --> <!-- Mantido inline -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../static/Style/Style_pagamento.css">
  
@@ -12,25 +13,33 @@
 
    <div class="app-container">
         <header class="client-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #eee;">
+            <!-- Logo e redes sociais -->
             <div style="display: flex; align-items: center; gap: 15px;">
+                <!-- CORREÇÃO DA IMAGEM: url_for para o logo -->
                 <img src="{{ url_for('static', filename='Imagens/logo/cake + title logo.png') }}" alt="Logo Karla Priscilia Confeitaria" style="height: 50px;">
                 <div style="display: flex; gap: 8px;">
                     <a href="#" style="display: flex; align-items: center;">
+                        <!-- CORREÇÃO DA IMAGEM: url_for para whatsapp.png -->
                         <img src="{{ url_for('static', filename='Imagens/whatsapp.png') }}" alt="WhatsApp" style="height: 25px;">
                     </a>
                     <a href="https://www.instagram.com/confeitariakarlapriscilia/" style="display: flex; align-items: center;">
+                        <!-- CORREÇÃO DA IMAGEM: url_for para instagram.png -->
                         <img src="{{ url_for('static', filename='Imagens/instagram.png') }}" alt="Instagram" style="height: 25px;">
                     </a>
                 </div>
             </div>
             
+            <!-- Ícones de perfil e carrinho -->
             <div class="header-icons" style="display: flex; align-items: center; gap: 10px;">
+                <!-- CORREÇÃO DA ROTA: "Voltar" aponta para 'carrinho' -->
                 <a href="{{ url_for('carrinho') }}" style="display: flex; align-items: center; text-decoration: none; color: #333; background-color: #f78f9a27; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 8px 15px; font-size: 14px; font-weight: 500; transition: all 0.2s;">
                     <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Voltar
                 </a>
+                <!-- CORREÇÃO DA ROTA: "Perfil" aponta para 'perfil' -->
                 <a href="{{ url_for('perfil') }}" class="profile-icon" style="color: #333; padding: 8px;">
                     <i class="fas fa-user"></i>
                 </a>
+                <!-- CORREÇÃO DA ROTA: "Carrinho" aponta para 'carrinho' -->
                 <a href="{{ url_for('carrinho') }}" class="cart-icon" style="position: relative; color: #333; padding: 8px;">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" style="position: absolute; top: 0; right: 0; background-color: #f78f9a; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
@@ -42,6 +51,7 @@
             <h1 class="page-title">Pagamento</h1>
             <p class="page-subtitle">Complete o seu pagamento com segurança.</p>
 
+            <!-- Order Summary -->
             <div class="order-summary">
                 <h2 class="section-title">Resumo do pedido</h2>
                 {% set ns = namespace(subtotal=0) %}
@@ -69,6 +79,7 @@
                 </div>
             </div>
 
+            <!-- Payment Methods -->
             <div class="payment-methods">
                 <h2 class="section-title">Método de Pagamento</h2>
                 <div class="tabs">
@@ -78,6 +89,7 @@
                     <div class="tab" data-tab="dinheiro">Dinheiro</div>
                 </div>
 
+                <!-- Credit Card Form -->
                 <div id="credito" class="tab-content active">
                     <form id="creditCardForm">
                         <div class="form-group">
@@ -102,6 +114,7 @@
                     <button type="button" class="btn btn-primary" id="confirmPayment">Confirmar pagamento</button>
                 </div>
 
+                <!-- Debit Card Form (same as credit card) -->
                 <div id="debito" class="tab-content">
                     <form id="debitCardForm">
                         <div class="form-group">
@@ -126,16 +139,19 @@
                     <button type="button" class="btn btn-primary" id="confirmDebitPayment">Confirmar pagamento</button>
                 </div>
 
+                <!-- PIX Payment -->
                 <div id="pix" class="tab-content">
                     <div class="pix-content">
                         <p>Escaneie o QR code com o aplicativo do seu banco.</p>
                         <div class="pix-qr">
+                            <!-- QR Code will be generated here -->
                             <i class="fas fa-qrcode" style="font-size: 60px; color: #ccc;"></i>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary" id="confirmPixPayment">Confirmar pagamento</button>
                 </div>
 
+                 <!-- Cash Payment -->
                 <div id="dinheiro" class="tab-content">
                     <div class="form-group">
                         <label for="troco">Você vai precisar de troco? Caso sim, para quanto?</label>
@@ -146,20 +162,98 @@
             </div>
         </main>
             
+        <!-- Success Screen (initially hidden) -->
         <div class="success-screen">
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
             <h2 class="success-title">Pagamento efetuado com sucesso!</h2>
             <p class="success-message">
-                Obrigada por nos escolher! A confirmação do pagamento junto com todas as informações
+                Obrigada por nos escolher! A confirmação do pagamento junto com todas as informações 
                 do seu pedido foram encaminhadas ao seu e-mail.
             </p>
+            <!-- CORREÇÃO DA ROTA: "Voltar à página inicial" aponta para 'home' -->
             <a href="{{ url_for('home') }}" class="btn btn-primary">Voltar à página inicial</a>
         </div>
     </div>
     
-    <script src="{{ url_for('static', filename='Script/Script_pagamento.js') }}"></script>
+       <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const paymentContainer = document.querySelector('.payment-methods');
+            const successScreen = document.querySelector('.success-screen');
+            const confirmButtons = document.querySelectorAll('[id^="confirm"]');
 
+            // Switch tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Handle payment confirmation
+            async function handlePaymentConfirmation(method) {
+                const total = parseFloat(document.querySelector('.order-total span:last-child').textContent.replace('R$','').replace(',','.'));
+                const resp = await fetch('/pagamento/confirm', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method, total})});
+                if(resp.ok){
+                    window.location.href = '/perfil';
+                    return;
+                }
+                paymentContainer.style.display='none';
+                successScreen.style.display='block';
+                successScreen.scrollIntoView({behavior:'smooth'});
+            }
+
+            // Map buttons to payment methods
+            document.getElementById('confirmPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('credito'));
+            document.getElementById('confirmDebitPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('debito'));
+            document.getElementById('confirmPixPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('pix'));
+            document.getElementById('confirmCashPayment')?.addEventListener('click', ()=>handlePaymentConfirmation('dinheiro'));
+
+            // Format credit card number
+            const cardNumberInputs = document.querySelectorAll('input[placeholder*="0000 0000"]');
+            cardNumberInputs.forEach(input => {
+                input.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+                    e.target.value = value.trim();
+                });
+            });
+
+            // Format expiry date
+            const expiryInputs = document.querySelectorAll('input[placeholder="MM/AA"]');
+            expiryInputs.forEach(input => {
+                input.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            });
+
+            // Format CVC
+            const cvcInputs = document.querySelectorAll('input[placeholder="000"]');
+            cvcInputs.forEach(input => {
+                input.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
