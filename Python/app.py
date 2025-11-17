@@ -62,6 +62,15 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_info' not in session:
+            # Se for requisição AJAX/JSON (como chamadas ao carrinho), retorna erro 401 em JSON
+            wants_json = (
+                request.is_json
+                or request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+                or 'application/json' in request.headers.get('Accept', '')
+            )
+            if wants_json:
+                return jsonify({"erro": "login_required"}), 401
+            # Para requisições normais, mantém redirecionamento para a tela de login
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
@@ -198,6 +207,18 @@ def login_traditional():
     """Processa o formulário de login tradicional (email/senha)."""
     email = request.form.get('email')
     senha = request.form.get('senha')
+
+    # Regra especial: login fixo do administrador
+    if email == 'atelierdigital@gmail.com' and senha == 'Conf0852':
+        session['user_info'] = {
+            'id': None,
+            'name': 'Administrador',
+            'email': email,
+            'cpf': None,
+            'endereco': None,
+            'celular': None
+        }
+        return redirect(url_for('admin_dashboard'))
     
     conn = get_db_connection()
     if conn is None:

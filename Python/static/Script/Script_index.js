@@ -33,8 +33,20 @@ document.addEventListener('click', function(e) {
         image
       })
     })
-    .then(r => r.json())
-    .then(j => {
+    .then(async r => {
+      if (r.status === 401) {
+        // Usuário não está logado (entrou como convidado)
+        let msg = 'Você precisa estar conectado a uma conta para adicionar itens ao carrinho.';
+        try {
+          const j = await r.json();
+          if (j && j.erro === 'login_required') {
+            msg = 'Você precisa estar conectado a uma conta para adicionar itens ao carrinho.';
+          }
+        } catch (e) {}
+        alert(msg);
+        return;
+      }
+      const j = await r.json();
       if (j.count !== undefined) {
         cartCount = j.count;
         updateCartCount();
@@ -45,13 +57,11 @@ document.addEventListener('click', function(e) {
           btn.style.backgroundColor = '#F99CA6';
         }, 1500);
       } else {
-        // Alertas são ruins para a experiência do usuário, usando console.warn
         console.warn(j.erro || 'Falha ao adicionar');
       }
     })
     .catch(err => {
       console.error('add cart', err);
-      // Alertas são ruins para a experiência do usuário, usando console.error
       console.error('Erro de rede');
     });
 });
@@ -60,8 +70,17 @@ document.addEventListener('DOMContentLoaded', async function() {
   fetch('/cart/items', {
       credentials: 'same-origin'
     })
-    .then(r => r.json())
+    .then(async r => {
+      if (r.status === 401) {
+        // Visitante (convidado) não tem carrinho carregado da sessão
+        cartCount = 0;
+        updateCartCount();
+        return [];
+      }
+      return r.json();
+    })
     .then(items => {
+      if (!Array.isArray(items)) return;
       cartCount = items.reduce((s, i) => s + i.qty, 0);
       updateCartCount();
     });

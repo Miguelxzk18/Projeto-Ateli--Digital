@@ -1,0 +1,657 @@
+const productModal = document.getElementById('productModal');
+// Guarda a imagem em Base64 para enviar ao backend
+let photoData = null;
+const addProductBtn = document.getElementById('addProductBtn');
+const cancelModalBtn = document.getElementById('cancelModal');
+const productForm = document.getElementById('productForm');
+const productPhotoInput = document.getElementById('productPhoto');
+const photoPreview = document.getElementById('photoPreview');
+const tbody = document.querySelector('table tbody');
+
+async function loadProducts() {
+  tbody.innerHTML = '';
+  try {
+    const resp = await fetch('/api/produtos', {
+      credentials: 'same-origin'
+    });
+    if (!resp.ok) {
+      console.error('loadProducts status', resp.status);
+      console.warn(`Erro ao carregar produtos: ${resp.statusText}`); // Substituído alert
+      return;
+    }
+    const list = await resp.json();
+    list.forEach(p => appendRow(p));
+  } catch (e) {
+    console.error('loadProducts', e);
+  }
+}
+
+function appendRow(prod) {
+  const tr = document.createElement('tr');
+  const imgCell = prod.foto ? `<img src="${prod.foto}" alt="foto" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">` : '<div class="product-photo-placeholder"></div>';
+  tr.innerHTML = `
+        <td>${imgCell}</td>
+        <td>${prod.nome}</td>
+        <td>${prod.descricao}</td>
+        <td>R$ ${parseFloat(prod.valor).toFixed(2).replace('.',',')}</td>
+        <td><span class="badge">${prod.categoria||''}</span></td>
+        <td class="table-actions">
+            <a href="#"><i class="fas fa-pen"></i></a>
+            <a href="#"><i class="fas fa-trash"></i></a>
+        </td>`;
+  tr.dataset.id = prod.id;
+  tr.dataset.price = parseFloat(prod.valor).toFixed(2);
+  tbody.appendChild(tr);
+}
+
+loadProducts();
+
+/* --------- Gerenciamento de Categorias --------- */
+let categories = Array.from(document.querySelectorAll('#productCategory option'))
+  .slice(1) // ignora placeholder
+  .map(opt => opt.value);
+
+const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
+const categoryModal = document.getElementById('categoryModal');
+const categoryList = document.getElementById('categoryList');
+const newCategoryInput = document.getElementById('newCategoryInput');
+const addCategoryBtn = document.getElementById('addCategoryBtn');
+const closeCategoryModal = document.getElementById('closeCategoryModal');
+
+function renderCategories() {
+  // Atualiza lista visual
+  categoryList.innerHTML = '';
+  categories.forEach(cat => {
+    const li = document.createElement('li');
+    li.style.display = 'flex';
+    li.style.justifyContent = 'space-between';
+    li.style.alignItems = 'center';
+    li.style.padding = '0.4rem 0';
+    li.textContent = cat;
+
+    const del = document.createElement('span');
+    del.textContent = '×';
+    del.style.cursor = 'pointer';
+    del.style.color = '#e74c3c';
+    del.className = 'delete-category';
+    li.appendChild(del);
+    categoryList.appendChild(li);
+  });
+
+  // Atualiza dropdown no modal de produto
+  const select = document.getElementById('productCategory');
+  select.innerHTML = '<option value="" disabled selected>Selecione...</option>';
+  categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    select.appendChild(opt);
+  });
+}
+
+// Abrir modal de categorias
+manageCategoriesBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  renderCategories();
+  categoryModal.classList.add('open');
+});
+
+// Fechar modal
+closeCategoryModal.addEventListener('click', () => categoryModal.classList.remove('open'));
+
+// Adicionar nova categoria
+addCategoryBtn.addEventListener('click', function() {
+  const val = newCategoryInput.value.trim();
+  if (!val) return;
+  if (categories.includes(val)) {
+    console.warn('Categoria já existe.'); // Substituído alert
+    return;
+  }
+  categories.push(val);
+  newCategoryInput.value = '';
+  renderCategories();
+});
+
+// Excluir categoria
+categoryList.addEventListener('click', function(e) {
+  if (e.target.classList.contains('delete-category')) {
+    const catName = e.target.parentElement.firstChild.textContent;
+    // Substituindo confirm por uma verificação simples. O ideal é usar um modal customizado.
+    console.warn(`Confirmação de exclusão pendente para: "${catName}". Implementar modal.`);
+    // if(confirm(`Remover a categoria "${catName}"?`)){ // Confirm original
+    if (true) { // Simulação de confirmação
+      categories = categories.filter(c => c !== catName);
+      renderCategories();
+    }
+  }
+});
+
+let editingRow = null; // guarda a linha que está sendo editada
+
+// Abrir modal para novo produto
+addProductBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  editingRow = null; // novo produto
+  productForm.reset();
+  photoPreview.style.display = 'none';
+  productModal.classList.add('open');
+});
+
+// Cancelar
+cancelModalBtn.addEventListener('click', () => productModal.classList.remove('open'));
+
+// Pré-visualização da foto
+productPhotoInput.addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) {
+    photoPreview.style.display = 'none';
+    photoData = null;
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    photoData = e.target.result; // data:image/...;base64,
+    photoPreview.src = photoData;
+    photoPreview.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
+
+// Delegação para editar / excluir
+tbody.addEventListener('click', function(e) {
+  const trash = e.target.closest('.fa-trash');
+  const pen = e.target.closest('.edit-product, .fa-pen');
+  if (trash) {
+    e.preventDefault();
+    const row = trash.closest('tr');
+    const id = row.dataset.id;
+    if (!id) {
+      // item sem id (linha local), remove diretamente
+      row.remove();
+      return;
+    }
+    // Substituindo confirm. O ideal é usar um modal customizado.
+    console.warn('Confirmação de exclusão pendente. Implementar modal.');
+    // if(confirm('Deseja remover este produto?')){ // Confirm original
+    if (true) { // Simulação de confirmação
+      fetch(`/api/produtos/${id}`, {
+          method: 'DELETE',
+          credentials: 'same-origin'
+        })
+        .then(async r => {
+          if (!r.ok) {
+            let msg = r.statusText;
+            try {
+              const j = await r.json();
+              msg = j.erro || msg;
+            } catch (e) {}
+            throw new Error(msg);
+          }
+          return r.json();
+        })
+        .then(j => {
+          if (j.ok) row.remove();
+          else throw new Error(j.erro || 'Falha ao excluir');
+        })
+        .catch(err => console.error(err.message)); // Substituído alert
+    }
+    return;
+  }
+  if (pen) {
+    e.preventDefault();
+    editingRow = pen.closest('tr');
+    const cells = editingRow.cells;
+    // Preenche formulário com dados existentes
+    document.getElementById('productName').value = cells[1].textContent.trim();
+    document.getElementById('productDesc').value = cells[2].textContent.trim();
+    const priceNum = cells[3].textContent.replace(/[^0-9,]/g, '').replace(',', '.');
+    document.getElementById('productPrice').value = parseFloat(priceNum);
+    document.getElementById('productCategory').value = cells[4].textContent.trim();
+    // Reinicia foto
+    productPhotoInput.value = '';
+    photoPreview.style.display = 'none';
+    productModal.classList.add('open');
+    return;
+  }
+});
+
+// Salvar (adicionar ou atualizar)
+productForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const name = document.getElementById('productName').value.trim();
+  const desc = document.getElementById('productDesc').value.trim();
+  let priceStr = document.getElementById('productPrice').value.trim();
+  priceStr = priceStr.replace(',', '.');
+  const priceNum = parseFloat(priceStr);
+  const cat = document.getElementById('productCategory').value.trim();
+  if (!name || !desc || isNaN(priceNum) || !cat) {
+    console.warn('Preencha todos os campos.'); // Substituído alert
+    return;
+  }
+  const priceFormatted = 'R$ ' + priceNum.toFixed(2).replace('.', ',');
+
+  // Se estiver editando, atualiza a linha existente e persiste no BD
+  if (editingRow) {
+    const id = editingRow.dataset.id;
+    if (id) {
+      const payload = {
+        nome: name,
+        descricao: desc,
+        valor: priceNum,
+        categoria: cat
+      };
+      if (photoData) {
+        payload.foto = photoData;
+      }
+      fetch(`/api/produtos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }).then(r => r.json()).then(j => {
+        if (!j.ok) {
+          console.warn(j.erro || 'Falha ao atualizar');
+        } // Substituído alert
+      });
+    }
+    const cells = editingRow.cells;
+    if (photoPreview.style.display === 'block') {
+      cells[0].innerHTML = `<img src="${photoPreview.src}" alt="foto" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">`;
+    }
+    cells[1].textContent = name;
+    cells[2].textContent = desc;
+    cells[3].textContent = priceFormatted;
+    cells[4].textContent = cat;
+    // atualiza preço original caso tenha sido alterado
+    editingRow.dataset.price = priceNum.toFixed(2);
+  } else {
+    // Envia ao backend e adiciona somente após confirmação
+    const payload = {
+      nome: name,
+      descricao: desc,
+      valor: priceNum,
+      categoria: cat
+    };
+    if (photoData) {
+      payload.foto = photoData;
+    }
+    fetch('/api/produtos/add', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(async r => {
+        if (!r.ok) {
+          let msg = 'erro';
+          try {
+            const j = await r.json();
+            msg = j.erro || JSON.stringify(j);
+          } catch (e) {
+            msg = r.statusText;
+          }
+          throw new Error(msg);
+        }
+        return r.json();
+      })
+      .then(json => {
+        if (!json.ok) {
+          console.warn(json.erro || 'Falha ao salvar'); // Substituído alert
+          return;
+        }
+        const tr = document.createElement('tr');
+        const imgCell = payload.foto ? `<img src="${payload.foto}" alt="foto" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">` : '<div class="product-photo-placeholder"></div>';
+        tr.innerHTML = `
+                <td>${imgCell}</td>
+                <td>${name}</td>
+                <td>${desc}</td>
+                <td>${priceFormatted}</td>
+                <td>${cat}</td>
+                <td class="table-actions">
+                    <a href="#"><i class="fas fa-pen"></i></a>
+                    <a href="#"><i class="fas fa-trash"></i></a>
+                </td>`;
+        tr.dataset.id = json.id;
+        tr.dataset.price = priceNum.toFixed(2);
+        tbody.appendChild(tr);
+        updatePrices();
+      })
+      .catch(err => {
+        console.error('save product', err);
+        console.error(err.message || 'Erro de rede'); // Substituído alert
+      });
+  }
+
+  // Limpa e fecha modal
+  this.reset();
+  photoPreview.style.display = 'none';
+  productModal.classList.remove('open');
+  editingRow = null;
+});
+
+/* --------- Gerenciamento de Combos --------- */
+const manageCombosBtn = document.getElementById('manageCombosBtn');
+const comboModal = document.getElementById('comboModal');
+const comboList = document.getElementById('comboList');
+const newComboNameInput = document.getElementById('newComboName');
+const newComboPriceInput = document.getElementById('newComboPrice');
+const comboItemsContainer = document.getElementById('comboItemsContainer');
+const addItemBtn = document.getElementById('addItemBtn');
+const comboPhotoInput = document.getElementById('comboPhoto');
+const comboPreview = document.getElementById('comboPreview');
+let comboFotoData = null;
+comboPhotoInput.addEventListener('change', function() {
+  const f = this.files[0];
+  if (!f) {
+    comboPreview.style.display = 'none';
+    comboFotoData = null;
+    return;
+  }
+  const r = new FileReader();
+  r.onload = e => {
+    comboFotoData = e.target.result;
+    comboPreview.src = comboFotoData;
+    comboPreview.style.display = 'block';
+  };
+  r.readAsDataURL(f);
+});
+const addComboBtn = document.getElementById('addComboBtn');
+const closeComboModalBtn = document.getElementById('closeComboModal');
+
+let combos = [];
+
+// Obtém nomes de produtos existentes para popular os dropdowns de itens do combo
+function getProductNames() {
+  return Array.from(document.querySelectorAll('table tbody tr td:nth-child(2)'))
+    .map(td => td.textContent.trim());
+}
+
+function addItemRow(name = '', qty = '') {
+  const row = document.createElement('div');
+  row.className = 'combo-item-row';
+  row.style.display = 'flex';
+  row.style.gap = '0.5rem';
+  row.style.marginTop = '0.5rem';
+
+  // Dropdown com produtos cadastrados
+  const select = document.createElement('select');
+  select.style.flex = '1';
+  const productNames = getProductNames();
+  productNames.forEach(prod => {
+    const opt = document.createElement('option');
+    opt.value = prod;
+    opt.textContent = prod;
+    select.appendChild(opt);
+  });
+  if (name && productNames.includes(name)) {
+    select.value = name;
+  }
+
+  const qtyInput = document.createElement('input');
+  qtyInput.type = 'number';
+  qtyInput.min = '1';
+  qtyInput.placeholder = 'Qtd';
+  qtyInput.value = qty;
+  qtyInput.style.width = '70px';
+
+  const removeBtn = document.createElement('button');
+  removeBtn.textContent = '×';
+  removeBtn.type = 'button';
+  removeBtn.style.cursor = 'pointer';
+  removeBtn.style.background = 'none';
+  removeBtn.style.border = 'none';
+  removeBtn.style.color = '#e74c3c';
+  removeBtn.style.fontSize = '1rem';
+
+  removeBtn.addEventListener('click', () => row.remove());
+
+  row.appendChild(select);
+  row.appendChild(qtyInput);
+  row.appendChild(removeBtn);
+  comboItemsContainer.appendChild(row);
+}
+
+function clearComboForm() {
+  newComboNameInput.value = '';
+  newComboPriceInput.value = '';
+  comboItemsContainer.innerHTML = '';
+}
+
+function renderCombos() {
+  comboList.innerHTML = '';
+  combos.forEach((combo, idx) => {
+    const li = document.createElement('li');
+    li.style.padding = '0.4rem 0';
+
+    const header = document.createElement('div');
+    header.style.display = 'flex';
+    header.style.justifyContent = 'space-between';
+    header.style.alignItems = 'center';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.innerHTML = `<strong>${combo.name}</strong> - R$ ${combo.price.toFixed(2).replace('.', ',')}`;
+    header.appendChild(titleSpan);
+
+    const del = document.createElement('span');
+    del.textContent = '×';
+    del.style.cursor = 'pointer';
+    del.style.color = '#e74c3c';
+    del.addEventListener('click', () => {
+      // Substituindo confirm
+      console.warn(`Confirmação de exclusão pendente para: "${combo.name}". Implementar modal.`);
+      // if(confirm(`Remover o combo "${combo.name}"?`)){ // Confirm original
+      if (true) { // Simulação de confirmação
+        combos.splice(idx, 1);
+        renderCombos();
+      }
+    });
+    header.appendChild(del);
+    li.appendChild(header);
+
+    if (combo.items.length) {
+      const itemsUl = document.createElement('ul');
+      itemsUl.style.marginTop = '0.25rem';
+      itemsUl.style.marginLeft = '1rem';
+      combo.items.forEach(it => {
+        const itemLi = document.createElement('li');
+        itemLi.textContent = `${it.name} x ${it.qty}`;
+        itemsUl.appendChild(itemLi);
+      });
+      li.appendChild(itemsUl);
+    }
+    comboList.appendChild(li);
+  });
+}
+
+// Abrir modal de combos
+manageCombosBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  renderCombos();
+  clearComboForm();
+  comboModal.classList.add('open');
+});
+
+// Fechar modal de combos
+closeComboModalBtn.addEventListener('click', () => comboModal.classList.remove('open'));
+
+// Adicionar item na criação do combo
+addItemBtn.addEventListener('click', () => addItemRow());
+
+// Adicionar combo
+addComboBtn.addEventListener('click', async () => {
+  const name = newComboNameInput.value.trim();
+  const priceStr = newComboPriceInput.value.trim();
+  if (!name || !priceStr) {
+    console.warn('Informe nome e preço do combo.'); // Substituído alert
+    return;
+  }
+  const price = parseFloat(priceStr);
+  if (isNaN(price)) {
+    console.warn('Preço inválido.'); // Substituído alert
+    return;
+  }
+  const items = Array.from(comboItemsContainer.querySelectorAll('.combo-item-row')).map(row => {
+    const select = row.querySelector('select');
+    const qtyInput = row.querySelector('input[type="number"]');
+    return {
+      name: select.value,
+      qty: qtyInput.value.trim() || '1'
+    };
+  }).filter(it => it.name);
+
+  try {
+    const resp = await fetch('/api/combos/add', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        price,
+        items,
+        foto: comboFotoData
+      })
+    });
+    const j = await resp.json();
+    if (!resp.ok || !j.ok) {
+      console.warn(j.erro || 'Falha ao salvar combo'); // Substituído alert
+      return;
+    }
+    combos.push({
+      name,
+      price,
+      items
+    });
+    renderCombos();
+    clearComboForm();
+    comboFotoData = null;
+    comboPreview.style.display = 'none';
+    loadProducts(); // recarrega lista para incluir combo
+  } catch (e) {
+    console.error('save combo', e);
+    console.error('Erro de rede'); // Substituído alert
+  }
+});
+
+/* --------- Gerenciamento de Promoções --------- */
+const managePromosBtn = document.getElementById('managePromosBtn');
+const promoModal = document.getElementById('promoModal');
+const promoList = document.getElementById('promoList');
+const newPromoNameInput = document.getElementById('newPromoName');
+const newPromoDiscountInput = document.getElementById('newPromoDiscount');
+const promoProductSelect = document.getElementById('promoProductSelect');
+const addPromoBtn = document.getElementById('addPromoBtn');
+const closePromoModalBtn = document.getElementById('closePromoModal');
+
+let promotions = [];
+
+// Atualiza preços na tabela com base nas promoções ativas
+function updatePrices() {
+  tbody.querySelectorAll('tr').forEach(row => {
+    const productName = row.cells[1].textContent.trim();
+    const original = parseFloat(row.dataset.price || '0');
+    if (!original) return; // segurança
+    const promo = promotions.find(p => p.product === productName);
+    const finalValue = promo ? original * (1 - promo.discount / 100) : original;
+    row.cells[3].textContent = 'R$ ' + finalValue.toFixed(2).replace('.', ',');
+  });
+}
+
+function renderPromos() {
+  promoList.innerHTML = '';
+  promotions.forEach((promo, idx) => {
+    const li = document.createElement('li');
+    li.style.display = 'flex';
+    li.style.justifyContent = 'space-between';
+    li.style.alignItems = 'center';
+    li.style.padding = '0.4rem 0';
+
+    const span = document.createElement('span');
+    span.innerHTML = `<strong>${promo.name}</strong> (${promo.product}) - ${promo.discount}%`;
+    li.appendChild(span);
+
+    const del = document.createElement('span');
+    del.textContent = '×';
+    del.style.cursor = 'pointer';
+    del.style.color = '#e74c3c';
+    del.addEventListener('click', () => {
+      // Substituindo confirm
+      console.warn(`Confirmação de exclusão pendente para: "${promo.name}". Implementar modal.`);
+      // if(confirm(`Remover a promoção "${promo.name}"?`)){ // Confirm original
+      if (true) { // Simulação de confirmação
+        promotions.splice(idx, 1);
+        updatePrices();
+        renderPromos();
+      }
+    });
+    li.appendChild(del);
+    promoList.appendChild(li);
+  });
+}
+
+// Abrir modal promo
+managePromosBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  renderPromos();
+  newPromoNameInput.value = '';
+  newPromoDiscountInput.value = '';
+  // Popular dropdown de produtos
+  promoProductSelect.innerHTML = '<option value="" disabled selected>Selecione um produto...</option>';
+  getProductNames().forEach(prod => {
+    const opt = document.createElement('option');
+    opt.value = prod;
+    opt.textContent = prod;
+    promoProductSelect.appendChild(opt);
+  });
+  promoModal.classList.add('open');
+});
+
+// Fechar modal promo
+closePromoModalBtn.addEventListener('click', () => promoModal.classList.remove('open'));
+
+// Adicionar promo
+addPromoBtn.addEventListener('click', () => {
+  const name = newPromoNameInput.value.trim();
+  const discStr = newPromoDiscountInput.value.trim();
+  const discount = parseFloat(discStr);
+  const product = promoProductSelect.value;
+  if (!product) {
+    console.warn('Selecione um produto.'); // Substituído alert
+    return;
+  }
+  if (!name || isNaN(discount) || discount <= 0 || discount > 100) {
+    console.warn('Informe nome e desconto entre 1 e 100%.'); // Substituído alert
+    return;
+  }
+  promotions.push({
+    name,
+    discount,
+    product
+  });
+  // persiste valor promocional no BD
+  const row = Array.from(tbody.querySelectorAll('tr')).find(r => r.cells[1].textContent.trim() === product);
+  if (row && row.dataset.id) {
+    const original = parseFloat(row.dataset.price || '0');
+    const promoPrice = original * (1 - discount / 100);
+    fetch(`/api/produtos/${row.dataset.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        valor: promoPrice
+      })
+    }).then(() => {
+      row.dataset.price = original.toFixed(2);
+    });
+  }
+  updatePrices();
+  renderPromos();
+  newPromoNameInput.value = '';
+  newPromoDiscountInput.value = '';
+  promoProductSelect.selectedIndex = 0;
+});
